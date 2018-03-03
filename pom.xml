@@ -3,7 +3,7 @@
   <groupId>fr.rhaz</groupId>
   <artifactId>events</artifactId>
   <version>1.0</version>
-  <name>Events</name>
+  <name>RHazEvents</name>
   
   <properties>
     <!-- github server corresponds to entry in ~/.m2/settings.xml -->

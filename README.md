@@ -1,4 +1,4 @@
-# Events v1.0
+# RHazEvents v1.0
 
 Event system for Java
 
@@ -9,8 +9,8 @@ Add the following sections to your pom.xml
 ```
 <repositories>
 	<repository>
-		<id>Events-mvn-repo</id>
-		<url>https://raw.github.com/RHazDev/Events/mvn-repo/</url>
+		<id>RHazEvents-mvn-repo</id>
+		<url>https://raw.github.com/RHazDev/RHazEvents/mvn-repo/</url>
 	</repository>
 </repositories>
 
