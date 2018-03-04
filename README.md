@@ -9,8 +9,8 @@ Add the following sections to your pom.xml
 ```
 <repositories>
 	<repository>
-		<id>RHazEvents-mvn-repo</id>
-		<url>https://raw.github.com/RHazDev/RHazEvents/mvn-repo/</url>
+		<id>RHazDev</id>
+		<url>https://raw.github.com/RHazDev/RHaz-Maven/</url>
 	</repository>
 </repositories>
 

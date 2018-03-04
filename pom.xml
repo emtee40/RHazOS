@@ -114,11 +114,13 @@
             <version>0.11</version>
             <configuration>
                 <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
-                <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+                <noJekyll>false</noJekyll>                                  <!-- disable webpage processing -->
                 <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
-                <branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
+                <branch>refs/heads/master</branch>                       <!-- remote branch name -->
                 <includes><include>**/*</include></includes>
-                <repositoryName>${project.name}</repositoryName>      <!-- github repo name -->
+                <force>false</force>
+                <merge>true</merge>
+                <repositoryName>RHaz-Maven</repositoryName>      <!-- github repo name -->
                 <repositoryOwner>RHazDev</repositoryOwner>    <!-- github username  -->
             </configuration>
             <executions>
