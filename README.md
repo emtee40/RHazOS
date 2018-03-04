@@ -2,6 +2,14 @@
 
 Event system for Java
 
+## Features
+
+- Multiple event managers
+
+- Cancellable events
+
+- Priority system
+
 ## Maven dependency
 
 Add the following sections to your pom.xml
