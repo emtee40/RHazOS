@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>fr.rhaz</groupId>
-  <artifactId>events</artifactId>
+  <artifactId>os</artifactId>
   <version>1.0</version>
-  <name>RHazEvents</name>
+  <name>OS</name>
   
   <properties>
     <!-- github server corresponds to entry in ~/.m2/settings.xml -->
@@ -66,7 +66,7 @@
 				                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 				                  <manifestEntries>
 				                    <Built-By>Hazae41</Built-By>
-				                    <Main-Class>${project.groupId}.${project.artifactId}.test.Main</Main-Class>
+				                    <Main-Class>${project.groupId}.${project.artifactId}.Main</Main-Class>
 				                  </manifestEntries>
 				                </transformer>
 				              </transformers>
@@ -137,5 +137,12 @@
 	</build>
 	
 	<dependencies>
+	<dependency>
+		<groupId>fr.rhaz</groupId>
+		<artifactId>events</artifactId>
+		<version>1.0</version>
+		<scope>compile</scope>
+	</dependency>
+	
 	</dependencies>
 </project>
