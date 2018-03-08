@@ -1,4 +1,4 @@
-# OS v1.0
+# RHazOS v1.0
 
 ## Maven dependency
 
