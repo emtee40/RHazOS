@@ -1,4 +1,6 @@
-package fr.rhaz.os;
+package fr.rhaz.os.plugins;
+
+import fr.rhaz.os.OS;
 
 public abstract class Plugin {
 	

@@ -1,7 +1,7 @@
 package fr.rhaz.os.logging;
 
 public abstract class Input<T> {
-	T in;
+	public T in;
 	
 	public Input(T in) {
 		this.in = in;

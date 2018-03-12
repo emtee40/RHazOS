@@ -2,14 +2,18 @@ package fr.rhaz.os;
 
 import fr.rhaz.events.EventManager;
 import fr.rhaz.os.OSEvent.OSEventType;
+import fr.rhaz.os.plugins.PluginManager;
 
 public class OS {
 	
 	private PluginManager pluginman;
 	private EventManager eventman;
 	private Console console;
+	private Thread thread;
 	
 	public OS() {
+		
+		thread = Thread.currentThread();
 		
 		console = new Console(this);
 		
@@ -35,6 +39,14 @@ public class OS {
 
 	public EventManager getEventManager() {
 		return eventman;
+	}
+	
+	public void exit() {
+		pluginman.exitAll();
+	}
+	
+	public Thread getThread() {
+		return thread;
 	}
 	
 }

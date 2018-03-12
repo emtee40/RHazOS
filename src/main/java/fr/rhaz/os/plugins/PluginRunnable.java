@@ -1,4 +1,4 @@
-package fr.rhaz.os;
+package fr.rhaz.os.plugins;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -9,6 +9,7 @@ public class PluginRunnable implements Runnable {
 		private PluginManager pluginmanager;
 		private Plugin plugin = null;
 		private ArrayList<Runnable> tasks;
+		private Thread thread;
 
 		public PluginRunnable(PluginManager pluginmanager, Class<? extends Plugin> pluginclass) {
 			this.pluginmanager = pluginmanager;
@@ -65,6 +66,14 @@ public class PluginRunnable implements Runnable {
 			Optional<Runnable> task;
 			if((task = tasks.stream().findFirst()).isPresent())
 				task.get().run();
+		}
+
+		public void setThread(Thread thread) {
+			this.thread = thread;
+		}
+		
+		public Thread getThread() {
+			return thread;
 		}
 	
 }

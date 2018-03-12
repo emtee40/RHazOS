@@ -1,7 +1,7 @@
 package fr.rhaz.os.logging;
 
 public abstract class Output<T> {
-	T out;
+	public T out;
 	
 	public Output(T out){
 		this.out = out;

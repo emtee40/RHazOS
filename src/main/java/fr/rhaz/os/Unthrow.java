@@ -1,4 +1,4 @@
-package utils.stream;
+package fr.rhaz.os;
 
 import java.util.stream.Stream;
 

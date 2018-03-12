@@ -1,4 +1,4 @@
-package fr.rhaz.os;
+package fr.rhaz.os.plugins;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -9,7 +9,8 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.jar.JarFile;
 
-import utils.stream.Unthrow;
+import fr.rhaz.os.OS;
+import fr.rhaz.os.Unthrow;
 
 public class PluginManager {
 	private OS os;
@@ -62,7 +63,9 @@ public class PluginManager {
 	public void load(Class<? extends Plugin> pluginclass) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
 		PluginRunnable pr = new PluginRunnable(this, pluginclass);
 		plugins.add(pr);
-		new Thread(pr).start();
+		Thread thread = new Thread(pr);
+		pr.setThread(thread);
+		thread.start();
 	}
 	
 	public void enableAll() {
@@ -73,5 +76,11 @@ public class PluginManager {
 
 	public OS getOS() {
 		return os;
+	}
+
+	public void exitAll() {
+		plugins.forEach((p) -> {
+			p.getThread().interrupt();
+		});
 	}
 }

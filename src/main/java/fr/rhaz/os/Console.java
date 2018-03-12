@@ -75,28 +75,32 @@ public class Console extends Thread {
 		public void run() {
 			String line;
 			while((line = getInput().read()) != null) {
-				try {
-					Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(line);
-					List<String> list = new ArrayList<String>();
-					while (m.find()) {
-						String msg = m.group(1);
-						if(msg.startsWith("\"") && msg.endsWith("\""))
-							msg = msg.substring(1, msg.length()-1);
-						list.add(msg);
-					}
-					getCommandManager().run(list.toArray(new String[list.size()]));
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				} catch (PermissionException e) {
-					getLogger().write(e.getMessage());
-				} catch (ArgumentException e) {
-					getLogger().write(e.getMessage());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				process(line);
 			}
 
 		}
 		
+	}
+
+	public void process(String line) {
+		try {
+			Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(line);
+			List<String> list = new ArrayList<String>();
+			while (m.find()) {
+				String msg = m.group(1);
+				if(msg.startsWith("\"") && msg.endsWith("\""))
+					msg = msg.substring(1, msg.length()-1);
+				list.add(msg);
+			}
+			getCommandManager().run(list.toArray(new String[list.size()]));
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (PermissionException e) {
+			getLogger().write(e.getMessage());
+		} catch (ArgumentException e) {
+			getLogger().write(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
