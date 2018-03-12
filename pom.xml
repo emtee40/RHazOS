@@ -5,6 +5,17 @@
   <version>1.0</version>
   <name>RHazOS</name>
   
+  <repositories>
+	<repository>
+		<id>RHazDev</id>
+		<url>https://raw.github.com/RHazDev/RHaz-Maven/</url>
+	</repository>
+	<repository>
+		<id>OSS-Sonatype</id>
+		<url>https://oss.sonatype.org/content/groups/public/</url>
+	</repository>
+</repositories>
+  
   <properties>
     <!-- github server corresponds to entry in ~/.m2/settings.xml -->
     <github.global.server>github</github.global.server>
