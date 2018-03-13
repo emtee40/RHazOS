@@ -47,7 +47,7 @@ public class PluginRunnable implements Runnable {
 				}
 				
 				plugin.onDisable();
-				plugin.setLoaded();
+				plugin.setDisabled();
 				
 				plugin.onUnload();
 				plugin.setUnloaded();
