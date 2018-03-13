@@ -4,16 +4,12 @@ import fr.rhaz.os.OS;
 
 public abstract class Plugin {
 	
-	private Description desc;
+	private PluginDescription desc;
 	private PluginRunnable runnable;
 	private Status status = Status.UNLOADED;
 	
 	public Plugin() {
-		this.desc = new Description();
-	}
-	
-	public void load(PluginRunnable runnable) {
-		this.runnable = runnable;
+		this.desc = new PluginDescription();
 	}
 	
 	public void exit() {
@@ -30,34 +26,8 @@ public abstract class Plugin {
 	public abstract void onUnload();
 	public abstract void onExit();
 	
-	public Description getDescription() {
+	public PluginDescription getDescription() {
 		return desc;
-	}
-	
-	public static class Description {
-		private String name;
-		private String author;
-		private int version;
-		
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getAuthor() {
-			return author;
-		}
-		public void setAuthor(String author) {
-			this.author = author;
-		}
-		public int getVersion() {
-			return version;
-		}
-		public void setVersion(int version) {
-			this.version = version;
-		}
 	}
 	
 	public boolean isEnabled() {
@@ -106,6 +76,14 @@ public abstract class Plugin {
 		ENABLING,
 		ENABLED,
 		DISABLED;
+	}
+
+	public void setDescription(PluginDescription pluginDesc) {
+		this.desc = pluginDesc;
+	}
+
+	public void setRunnable(PluginRunnable pluginRunnable) {
+		this.runnable = pluginRunnable;
 	}
 	
 }

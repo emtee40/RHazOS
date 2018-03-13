@@ -20,8 +20,14 @@ public class OS {
 		eventman = new EventManager();
 		
 		pluginman = new PluginManager(this);
-		getPluginManager().start();
 		
+	}
+	
+	public void defaultStart() {
+		getPluginManager().defaultStart();
+	}
+	
+	public void started() {
 		eventman.call(new OSEvent(OSEventType.STARTED));
 	}
 	

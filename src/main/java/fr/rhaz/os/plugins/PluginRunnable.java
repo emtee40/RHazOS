@@ -5,15 +5,15 @@ import java.util.Optional;
 
 public class PluginRunnable implements Runnable {
 
-		private Class<? extends Plugin> pluginclass;
 		private PluginManager pluginmanager;
 		private Plugin plugin = null;
 		private ArrayList<Runnable> tasks;
 		private Thread thread;
+		private PluginDescription plugindesc;
 
-		public PluginRunnable(PluginManager pluginmanager, Class<? extends Plugin> pluginclass) {
+		public PluginRunnable(PluginManager pluginmanager, PluginDescription desc) {
 			this.pluginmanager = pluginmanager;
-			this.pluginclass = pluginclass;
+			this.plugindesc = desc;
 			this.tasks = new ArrayList<>();
 		}
 
@@ -21,7 +21,10 @@ public class PluginRunnable implements Runnable {
 		public void run() {
 			try {
 				
-				this.plugin = pluginclass.newInstance();
+				plugin = plugindesc.getPluginClass().newInstance();
+				
+				plugin.setRunnable(this);
+				plugin.setDescription(plugindesc);
 				
 				Runtime.getRuntime().addShutdownHook(
 					new Thread(() -> {
@@ -29,11 +32,11 @@ public class PluginRunnable implements Runnable {
 					})
 				);
 				
-				plugin.load(this);
 				plugin.onLoad();
-				plugin.setEnabling();
+				plugin.setLoaded();
 				
 				enable:{
+					while(!plugin.isEnabling()) {}
 					plugin.onEnable();
 					if(plugin.isDisabled()) break enable;
 					plugin.setEnabled();
