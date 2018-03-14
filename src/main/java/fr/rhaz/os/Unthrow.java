@@ -9,8 +9,12 @@ import java.util.stream.Stream;
  */
 public class Unthrow {
     @SuppressWarnings("unchecked")
-    static <R, E extends Exception> R rethrow(Exception ex) throws E {
-        throw (E) ex;
+    static <E extends Exception> void rethrow(Exception ex) {
+        try {
+			throw (E) ex;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     public static<R, E extends Exception> Stream<R> of(Stream<R> stream) throws E {
@@ -117,32 +121,36 @@ public class Unthrow {
         try {
             return func.apply();
         } catch (Exception ex) {
-            return rethrow(ex);
+            rethrow(ex);
         }
+		return null;
     }
 
     public static <R, T> R wrap(IFunc1<R, T> func, T t) {
         try {
             return func.apply(t);
         } catch (Exception ex) {
-            return rethrow(ex);
+            rethrow(ex);
         }
+		return null;
     }
 
     public static <R, T1, T2> R wrap(IFunc2<R, T1, T2> func, T1 t1, T2 t2) {
         try {
             return func.apply(t1, t2);
         } catch (Exception ex) {
-            return rethrow(ex);
+            rethrow(ex);
         }
+		return null;
     }
 
     public static <R, T1, T2, T3> R wrap(IFunc3<R, T1, T2, T3> func, T1 t1, T2 t2, T3 t3) {
         try {
             return func.apply(t1, t2, t3);
         } catch (Exception ex) {
-            return rethrow(ex);
+            rethrow(ex);
         }
+		return null;
     }
 
 }

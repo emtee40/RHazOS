@@ -27,8 +27,11 @@ public class PluginRunnable implements Runnable {
 				plugin.setDescription(plugindesc);
 				
 				Runtime.getRuntime().addShutdownHook(
-					new Thread(() -> {
-						plugin.onExit();
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							plugin.onExit();
+						}
 					})
 				);
 				

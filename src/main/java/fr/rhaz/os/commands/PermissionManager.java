@@ -3,6 +3,7 @@ package fr.rhaz.os.commands;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.function.Predicate;
 
 public class PermissionManager {
 	
@@ -30,9 +31,13 @@ public class PermissionManager {
 			}
 			
 			if(permission.isAll()) {
-				Permission parent = permission.getParent();
-				permissions.removeIf((p) -> 
-					p.name().startsWith(parent+".")
+				final Permission parent = permission.getParent();
+				permissions.removeIf(new Predicate<Permission>() {
+					@Override
+					public boolean test(Permission p) {
+						return p.name().startsWith(parent+".");
+					}
+				}
 				);
 			}
 			

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +32,12 @@ public class Console extends Thread {
 		
 		logger = new Logger("RHasOS", new ConsoleOutput());
 		logger.setFormat(
-				(msg) ->  ("["+date("HH:mm:ss")+"]"+" "+msg)
+				new Function<String, String>() {
+					@Override
+					public String apply(String msg) {
+						return ("["+date("HH:mm:ss")+"]"+" "+msg);
+					}
+				}
 		);
 		
 		reader = new Reader();

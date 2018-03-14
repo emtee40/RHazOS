@@ -8,14 +8,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Map.Entry;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.jar.JarFile;
 
 import fr.rhaz.os.OS;
 import fr.rhaz.os.Unthrow;
+import fr.rhaz.os.Unthrow.IProc0;
 
 public class PluginManager {
 	private OS os;
@@ -39,11 +39,21 @@ public class PluginManager {
 	public void defaultStart() {
 		
 		BiConsumer<PluginDescription, String>
-		loader = (desc, main) -> injectClass(desc, main);
+		loader = new BiConsumer<PluginDescription, String>() {
+			@Override
+			public void accept(PluginDescription desc, String main) {
+				injectClass(desc, main);
+			}
+		};
 				
 		loadAll(loader);
 		
-		Unthrow.wrapProc(() -> Thread.sleep(1000));
+		Unthrow.wrapProc(new IProc0() {
+			@Override
+			public void accept() throws Exception {
+				Thread.sleep(1000);
+			}
+		});
 		
 		enableAll();
 	}
@@ -67,6 +77,8 @@ public class PluginManager {
 				return file.getName().endsWith(".jar");
 			}
 		});
+		
+		if(files.length == 0) return;
 		
 		for(File file:files) {
 			try {
@@ -116,21 +128,34 @@ public class PluginManager {
 	}
 	
 	public void enableAll() {
-		plugins.forEach((p) -> {
-			p.getPlugin().setEnabling();
-		});
+		Consumer<PluginRunnable> consumer = new Consumer<PluginRunnable>() {
+			@Override
+			public void accept(PluginRunnable p) {
+				p.getPlugin().setEnabling();
+			}
+		};
+		for(PluginRunnable plugin:plugins) consumer.accept(plugin);
 	}
 	
-	public Plugin getPlugin(String name) {
+	public Plugin getPlugin(final String name) {
 		ArrayList<PluginRunnable> list = new ArrayList<>(plugins);
-		list.removeIf((runnable) -> {
-			return !runnable.getPlugin().getDescription().getName().equalsIgnoreCase(name);
+		list.removeIf(new Predicate<PluginRunnable>() {
+			@Override
+			public boolean test(PluginRunnable runnable) {
+				return !runnable.getPlugin().getDescription().getName().equalsIgnoreCase(name);
+			}
 		});
 		return list.get(0).getPlugin();
 	}
 	
 	public ArrayList<PluginRunnable> getPlugins(){
 		return plugins;
+	}
+	
+	public void setFolder(File folder) {
+		this.folder = folder;
+		if(!folder.exists())
+			folder.mkdir();
 	}
 	
 	public File getFolder() {
@@ -142,9 +167,13 @@ public class PluginManager {
 	}
 
 	public void exitAll() {
-		plugins.forEach((p) -> {
-			p.getThread().interrupt();
-		});
+		Consumer<PluginRunnable> consumer = new Consumer<PluginRunnable>() {
+			@Override
+			public void accept(PluginRunnable p) {
+				p.getThread().interrupt();
+			}
+		};
+		for(PluginRunnable plugin:plugins) consumer.accept(plugin);
 	}
 	
 	public boolean nullOrEmpty(String str) {
