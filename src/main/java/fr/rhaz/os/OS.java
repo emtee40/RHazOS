@@ -1,17 +1,27 @@
 package fr.rhaz.os;
 
+import fr.rhaz.events.Event;
 import fr.rhaz.events.EventManager;
+import fr.rhaz.os.OS.Environment;
 import fr.rhaz.os.OSEvent.OSEventType;
+import fr.rhaz.os.commands.Command;
 import fr.rhaz.os.plugins.PluginManager;
 
 public class OS {
-	
+
 	private PluginManager pluginman;
 	private EventManager eventman;
 	private Console console;
 	private Thread thread;
+	private Environment environment;
 	
 	public OS() {
+		this(Environment.JAVA);
+	}
+	
+	public OS(Environment env) {
+		
+		environment = env;
 		
 		thread = Thread.currentThread();
 		
@@ -23,7 +33,12 @@ public class OS {
 		
 	}
 	
+	public Environment getEnvironment() {
+		return environment;
+	}
+	
 	public void defaultStart() {
+		getConsole().defaultStart();
 		getPluginManager().defaultStart();
 	}
 	
@@ -55,4 +70,21 @@ public class OS {
 		return thread;
 	}
 	
+	public void register(Command command) {
+		getConsole().getCommandManager().register(command);
+	}
+	
+	public void call(Event event) {
+		getEventManager().call(event);
+	}
+	
+	public void run(String line) {
+		getConsole().process(line);
+	}
+	
+	public static enum Environment {
+		JAVA,
+		ANDROID,
+		OTHER;
+	}
 }

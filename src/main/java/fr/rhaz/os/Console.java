@@ -16,6 +16,7 @@ import fr.rhaz.os.logging.ConsoleInput;
 import fr.rhaz.os.logging.ConsoleOutput;
 import fr.rhaz.os.logging.Input;
 import fr.rhaz.os.logging.Logger;
+import fr.rhaz.os.logging.Output;
 
 public class Console extends Thread {
 	
@@ -26,11 +27,24 @@ public class Console extends Thread {
 	private CommandManager cmdman;
 
 	public Console(OS os) {
-		this.os = os;
-		cmdman = new CommandManager();
-		input = new ConsoleInput();
+		this(os, new ConsoleInput(), new ConsoleOutput());
+	}
+	
+	public Console(OS os, Input<?> input, Output<?> output) {
 		
-		logger = new Logger("RHasOS", new ConsoleOutput());
+		this.os = os;
+		
+		this.cmdman = new CommandManager();
+		
+		this.input = input;
+		
+		this.logger = new Logger("RHasOS", output);
+		
+		this.reader = new Reader();
+		
+	}
+	
+	public void defaultStart() {
 		logger.setFormat(
 				new Function<String, String>() {
 					@Override
@@ -39,8 +53,6 @@ public class Console extends Thread {
 					}
 				}
 		);
-		
-		reader = new Reader();
 		reader.thread().start();
 	}
 	
@@ -82,6 +94,11 @@ public class Console extends Thread {
 			String line;
 			while((line = getInput().read()) != null) {
 				process(line);
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					return;
+				}
 			}
 
 		}

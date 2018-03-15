@@ -3,6 +3,9 @@ package fr.rhaz.os.plugins;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import fr.rhaz.events.Event;
+import fr.rhaz.os.plugins.PluginEvent.PluginEventType;
+
 public class PluginRunnable implements Runnable {
 
 		private PluginManager pluginmanager;
@@ -16,6 +19,8 @@ public class PluginRunnable implements Runnable {
 			this.plugindesc = desc;
 			this.tasks = new ArrayList<>();
 		}
+		
+		public void doNothing() {}
 
 		@Override
 		public void run() {
@@ -39,14 +44,17 @@ public class PluginRunnable implements Runnable {
 				plugin.setLoaded();
 				
 				enable:{
-					while(!plugin.isEnabling()) {}
+					synchronized(this){
+						while(!plugin.isEnabling())
+							wait();//wait until notify gets called in startThread
+					}
 					plugin.onEnable();
 					if(plugin.isDisabled()) break enable;
 					plugin.setEnabled();
-				}
-				
-				while(plugin.isEnabled()) {
-					executeTask();
+					while(plugin.isEnabled()) {
+						executeTask();
+						syncwait(500);
+					}
 				}
 				
 				plugin.onDisable();
@@ -55,9 +63,20 @@ public class PluginRunnable implements Runnable {
 				plugin.onUnload();
 				plugin.setUnloaded();
 				
-			} catch (InstantiationException | IllegalAccessException e) {
+			} catch (InstantiationException | IllegalAccessException | InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		public synchronized void syncwait(long timeout) throws InterruptedException {
+			wait(timeout);
+		}
+		
+		public synchronized void enable() {
+			plugin.setEnabling();
+			notify();
+			Event e = new PluginEvent(plugin.getDescription(), PluginEventType.ENABLED);
+			getPluginManager().getOS().getEventManager().call(e);
 		}
 		
 		public PluginManager getPluginManager() {
@@ -72,6 +91,10 @@ public class PluginRunnable implements Runnable {
 			Optional<Runnable> task;
 			if((task = tasks.stream().findFirst()).isPresent())
 				task.get().run();
+		}
+		
+		public void addTask(Runnable task) {
+			tasks.add(task);
 		}
 
 		public void setThread(Thread thread) {

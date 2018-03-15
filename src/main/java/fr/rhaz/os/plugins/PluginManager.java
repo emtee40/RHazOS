@@ -16,6 +16,7 @@ import java.util.jar.JarFile;
 import fr.rhaz.os.OS;
 import fr.rhaz.os.Unthrow;
 import fr.rhaz.os.Unthrow.IProc0;
+import fr.rhaz.os.plugins.PluginEvent.PluginEventType;
 
 public class PluginManager {
 	private OS os;
@@ -125,13 +126,14 @@ public class PluginManager {
 		Thread thread = new Thread(pr);
 		pr.setThread(thread);
 		thread.start();
+		getOS().getEventManager().call(new PluginEvent(desc, PluginEventType.LOADED));
 	}
 	
 	public void enableAll() {
 		Consumer<PluginRunnable> consumer = new Consumer<PluginRunnable>() {
 			@Override
 			public void accept(PluginRunnable p) {
-				p.getPlugin().setEnabling();
+				p.enable();
 			}
 		};
 		for(PluginRunnable plugin:plugins) consumer.accept(plugin);

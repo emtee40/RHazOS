@@ -31,7 +31,7 @@ public abstract class Plugin {
 	}
 	
 	public boolean isEnabled() {
-		return status .equals(Status.ENABLED);
+		return status.equals(Status.ENABLED);
 	}
 	
 	public void setEnabled() {
