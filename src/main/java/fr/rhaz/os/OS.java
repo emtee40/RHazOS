@@ -2,7 +2,6 @@ package fr.rhaz.os;
 
 import fr.rhaz.events.Event;
 import fr.rhaz.events.EventManager;
-import fr.rhaz.os.OS.Environment;
 import fr.rhaz.os.OSEvent.OSEventType;
 import fr.rhaz.os.commands.Command;
 import fr.rhaz.os.plugins.PluginManager;
@@ -13,13 +12,13 @@ public class OS {
 	private EventManager eventman;
 	private Console console;
 	private Thread thread;
-	private Environment environment;
+	private OSEnvironment environment;
 	
 	public OS() {
-		this(Environment.JAVA);
+		this(OSEnvironment.JAVA);
 	}
 	
-	public OS(Environment env) {
+	public OS(OSEnvironment env) {
 		
 		environment = env;
 		
@@ -33,7 +32,7 @@ public class OS {
 		
 	}
 	
-	public Environment getEnvironment() {
+	public OSEnvironment getEnvironment() {
 		return environment;
 	}
 	
@@ -82,7 +81,7 @@ public class OS {
 		getConsole().process(line);
 	}
 	
-	public static enum Environment {
+	public static enum OSEnvironment {
 		JAVA,
 		ANDROID,
 		OTHER;
