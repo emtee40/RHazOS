@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +11,7 @@ import fr.rhaz.os.commands.ArgumentException;
 import fr.rhaz.os.commands.CommandManager;
 import fr.rhaz.os.commands.ExecutionException;
 import fr.rhaz.os.commands.PermissionException;
+import fr.rhaz.os.java.Function;
 import fr.rhaz.os.logging.ConsoleInput;
 import fr.rhaz.os.logging.ConsoleOutput;
 import fr.rhaz.os.logging.Input;

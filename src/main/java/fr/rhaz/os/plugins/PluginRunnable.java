@@ -44,16 +44,17 @@ public class PluginRunnable implements Runnable {
 				plugin.setLoaded();
 				
 				enable:{
-					synchronized(this){
-						while(!plugin.isEnabling())
-							wait();//wait until notify gets called in startThread
-					}
+					
+					while(!plugin.isEnabling())
+						Thread.sleep(100);
+					
 					plugin.onEnable();
 					if(plugin.isDisabled()) break enable;
 					plugin.setEnabled();
+					
 					while(plugin.isEnabled()) {
 						executeTask();
-						syncwait(500);
+						Thread.sleep(100);
 					}
 				}
 				
@@ -68,13 +69,8 @@ public class PluginRunnable implements Runnable {
 			}
 		}
 		
-		public synchronized void syncwait(long timeout) throws InterruptedException {
-			wait(timeout);
-		}
-		
-		public synchronized void enable() {
+		public void enable() {
 			plugin.setEnabling();
-			notify();
 			Event e = new PluginEvent(plugin.getDescription(), PluginEventType.ENABLED);
 			getPluginManager().getOS().getEventManager().call(e);
 		}
@@ -88,9 +84,10 @@ public class PluginRunnable implements Runnable {
 		}
 		
 		public void executeTask() {
-			Optional<Runnable> task;
-			if((task = tasks.stream().findFirst()).isPresent())
-				task.get().run();
+			if(tasks.size() == 0) return;
+			Runnable task = tasks.get(0);
+			tasks.remove(0);
+			task.run();
 		}
 		
 		public void addTask(Runnable task) {

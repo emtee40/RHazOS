@@ -8,14 +8,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.jar.JarFile;
 
 import fr.rhaz.os.OS;
 import fr.rhaz.os.Unthrow;
 import fr.rhaz.os.Unthrow.IProc0;
+import fr.rhaz.os.java.BiConsumer;
 import fr.rhaz.os.plugins.PluginEvent.PluginEventType;
 
 public class PluginManager {
@@ -71,13 +70,17 @@ public class PluginManager {
 		}
 	}
 	
-	public void loadAll(BiConsumer<PluginDescription, String> loader) {
-		File[] files = folder.listFiles(new FileFilter() {
+	public File[] getAll() {
+		return folder.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File file) {
 				return file.getName().endsWith(".jar");
 			}
 		});
+	}
+	
+	public void loadAll(BiConsumer<PluginDescription, String> loader) {
+		File[] files = getAll();
 		
 		if(files.length == 0) return;
 		
@@ -111,6 +114,11 @@ public class PluginManager {
 				
 				loader.accept(desc, main);
 				
+				if(desc.getPluginClass() == null) {
+					getOS().write("Unable to load "+file.getName());
+					continue;
+				}
+					
 				load(desc);
 				
 			} catch (IOException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -140,14 +148,10 @@ public class PluginManager {
 	}
 	
 	public Plugin getPlugin(final String name) {
-		ArrayList<PluginRunnable> list = new ArrayList<>(plugins);
-		list.removeIf(new Predicate<PluginRunnable>() {
-			@Override
-			public boolean test(PluginRunnable runnable) {
-				return !runnable.getPlugin().getDescription().getName().equalsIgnoreCase(name);
-			}
-		});
-		return list.get(0).getPlugin();
+		for(PluginRunnable plugin:plugins) {
+			if(plugin.getPlugin().getDescription().getName().equalsIgnoreCase(name))
+				return plugin.getPlugin();
+		} return null;
 	}
 	
 	public ArrayList<PluginRunnable> getPlugins(){

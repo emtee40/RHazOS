@@ -2,8 +2,8 @@ package fr.rhaz.os.logging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import fr.rhaz.os.java.Function;
+import fr.rhaz.os.java.Predicate;
 
 public class Logger {
 	
