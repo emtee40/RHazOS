@@ -34,7 +34,7 @@ public class Console extends Thread {
 		
 		this.os = os;
 		
-		this.cmdman = new CommandManager();
+		this.cmdman = new CommandManager(os);
 		
 		this.input = input;
 		
@@ -115,7 +115,7 @@ public class Console extends Thread {
 					msg = msg.substring(1, msg.length()-1);
 				list.add(msg);
 			}
-			getCommandManager().run(list.toArray(new String[list.size()]));
+			getCommandManager().run(list.toArray(new String[list.size()]), line);
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (PermissionException e) {

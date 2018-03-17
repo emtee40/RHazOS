@@ -4,43 +4,91 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
+import fr.rhaz.os.Utils;
+
 public class CommandLine {
+	private String raw;
+	private ArrayList<String> values;
+	private ArrayList<Argument<?>> args;
+	private CommandSender sender;
 	private String[] line;
-	private ArrayList<String> list;
-	@SuppressWarnings("rawtypes")
-	private ArrayList<Class<? extends Argument>> args;
+	private Command command;
+	private String alias;
 	
-	public CommandLine(String[] line, Argument<?>[] args) {
+	public CommandLine(String alias, Command command, CommandSender sender, String[] line, Argument<?>[] args, String raw) {
 		this.line = line;
 		
-		this.args = new ArrayList<>();
+		this.alias = alias;
 		
-		for(Argument<?> arg:args) 
-			this.args.add(arg.getClass());
+		this.command = command;
 		
-		this.list = new ArrayList<>(Arrays.asList(line));
+		this.raw = raw;
+		
+		this.sender = sender;
+		
+		this.args = Utils.list(args);
+		
+		this.values = Utils.list(line);
 	}
 	
-	public String[] getRawLine() {
+	public String getAlias() {
+		return alias;
+	}
+	
+	public Command getCommand() {
+		return command;
+	}
+	
+	public CommandSender getSender() {
+		return sender;
+	}
+	
+	public String[] getLine() {
 		return line;
 	}
 	
-	public <T> Optional<T> read(Argument<T> arg) throws ExecutionException{
+	public String getRawLine() {
+		return raw;
+	}
+	
+	// Read the next value as an arg
+	public <T> Optional<T> read(Argument<T> arg) {
 		
-		int i = args.indexOf(arg.getClass());
+		/*int i = args.indexOf(arg.getClass());
 		
-		if(i == -1) return Optional.ofNullable(null);
+		if(i == -1) {
+			
+		}*/
 		
-		String value;
+		String value = null;
+		for(String vtest:values) {
+			try {
+				arg.check(vtest);
+				value = vtest;
+				break;
+			} catch (ArgumentException e) {
+				continue;
+			}
+		}
+		
+		if(value == null)
+			return Optional.ofNullable(null);
+		
+		/*String value;
 		try{
 			value = list.get(i);
 		} catch (IndexOutOfBoundsException e) {
 			return Optional.ofNullable(null);
-		}
+		}*/
 		
-		T object = arg.get(value);
-		args.remove(i);
-		list.remove(i);
+		T object = null;
+		try {
+			object = arg.get(value);
+		} catch (ExecutionException e) {}
+		
+		args.remove(arg);
+		values.remove(value);
+		
 		return Optional.ofNullable(object);
 	}
 
