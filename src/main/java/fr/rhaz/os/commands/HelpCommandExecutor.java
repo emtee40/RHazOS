@@ -8,16 +8,16 @@ import fr.rhaz.os.Utils;
 public class HelpCommandExecutor extends CommandExecutor {
 	
 	private Command command;
+	private String header;
 
 	public HelpCommandExecutor(Command command) {
 		this.command = command;
+		this.setDescription("Help for command \""+command.getAliases().get(0)+"\"");
+		this.header = "\n		"+getDescription()+"\n";
 	}
 	
 	@Override
 	public void run(CommandLine line) throws ExecutionException {
-		
-		if(this.getDescription().isEmpty())
-			this.setDescription("Help for command \""+line.getAlias()+"\":");
 		
 		ArrayList<String> list = new ArrayList<>();
 		
@@ -41,8 +41,8 @@ public class HelpCommandExecutor extends CommandExecutor {
 						subex.check(line.getSender());
 						list.add(
 							line.getAlias()+" "
-							+(subex.toString().equals("")?"":(subex+" "))
 							+Utils.join(",", sub.getAliases())
+							+(subex.toString().equals("")?"":(" "+subex))
 							+(subex.getDescription().isEmpty()?
 								(subex.getArguments().length==0?
 										(sub.getDescription().isEmpty()?"":(": "+sub.getDescription())):"")
@@ -58,8 +58,12 @@ public class HelpCommandExecutor extends CommandExecutor {
 			return;
 		}
 		
-		line.getSender().write(this.getDescription());
+		line.getSender().write(header);
 		for(String msg:list) line.getSender().write(msg);
+	}
+	
+	public void setHeader(String header) {
+		this.header = header;
 	}
 	
 	@Override
