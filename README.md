@@ -1,5 +1,9 @@
 # RHazOS v1.1
 
+## Features
+
+See https://github.com/RHazDev/TestPlugin
+
 ## Maven dependency
 
 Add the following sections to your pom.xml
