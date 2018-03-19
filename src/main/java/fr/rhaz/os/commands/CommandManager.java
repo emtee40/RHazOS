@@ -30,7 +30,7 @@ public class CommandManager {
 						
 						for(CommandExecutor ex:exs) {
 							try {
-								ex.check(line.getSender());
+								ex.check(line);
 								list.add(
 									Utils.join(",", cmd.getAliases())
 									+(ex.toString().equals("")?"":(" "+ex))
@@ -52,9 +52,12 @@ public class CommandManager {
 				line.getSender().write("\n		Help\n");
 				for(String msg:list) line.getSender().write(msg);
 			}
-			
+
 			@Override
-			public void check(CommandSender sender) throws PermissionException {}
+			public void check(CommandLine line) throws PermissionException {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		register(help);
 	}

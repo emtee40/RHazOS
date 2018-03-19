@@ -115,9 +115,10 @@ public class Command {
 		
 		for(CommandExecutor exec:executors) {
 			try {
+				CommandLine cline = new CommandLine(alias, this, sender, line, exec.getArguments(), raw);
 				exec.check(line);
-				exec.check(sender);
-				exec.run(new CommandLine(alias, this, sender, line, exec.getArguments(), raw));
+				exec.check(cline);
+				exec.run(cline);
 				return;
 			} catch (ArgumentException e) {}
 		}

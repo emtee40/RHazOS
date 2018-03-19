@@ -26,7 +26,7 @@ public class HelpCommandExecutor extends CommandExecutor {
 		
 		for(CommandExecutor ex:exs) {
 			try {
-				ex.check(line.getSender());
+				ex.check(line);
 				if(ex.getArguments().length==0) continue;
 				String l = line.getAlias()+ " " + (ex.toString().equals("")?"":ex)+(ex.getDescription().isEmpty()?"":(": "+ex.getDescription()));
 				list.add(l);
@@ -38,7 +38,7 @@ public class HelpCommandExecutor extends CommandExecutor {
 				sub.check(line.getSender());
 				for(CommandExecutor subex:sub.getExecutors()) {
 					try {
-						subex.check(line.getSender());
+						subex.check(line);
 						list.add(
 							line.getAlias()+" "
 							+Utils.join(",", sub.getAliases())
@@ -65,7 +65,10 @@ public class HelpCommandExecutor extends CommandExecutor {
 	public void setHeader(String header) {
 		this.header = header;
 	}
-	
+
 	@Override
-	public void check(CommandSender sender) throws PermissionException {}
+	public void check(CommandLine line) throws PermissionException {
+		// TODO Auto-generated method stub
+		
+	}
 }

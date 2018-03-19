@@ -1,7 +1,6 @@
 package fr.rhaz.os.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 
 import fr.rhaz.os.Utils;
@@ -54,12 +53,6 @@ public class CommandLine {
 	// Read the next value as an arg
 	public <T> Optional<T> read(Argument<T> arg) {
 		
-		/*int i = args.indexOf(arg.getClass());
-		
-		if(i == -1) {
-			
-		}*/
-		
 		String value = null;
 		for(String vtest:values) {
 			try {
@@ -73,13 +66,6 @@ public class CommandLine {
 		
 		if(value == null)
 			return Optional.ofNullable(null);
-		
-		/*String value;
-		try{
-			value = list.get(i);
-		} catch (IndexOutOfBoundsException e) {
-			return Optional.ofNullable(null);
-		}*/
 		
 		T object = null;
 		try {
