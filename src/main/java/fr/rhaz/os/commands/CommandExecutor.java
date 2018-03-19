@@ -51,5 +51,5 @@ public abstract class CommandExecutor {
 
 	public abstract void run(CommandLine line) throws ExecutionException;
 
-	public abstract void check(CommandLine line) throws PermissionException;
+	public void check(CommandLine line) throws PermissionException{};
 }

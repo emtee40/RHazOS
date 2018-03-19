@@ -67,8 +67,5 @@ public class HelpCommandExecutor extends CommandExecutor {
 	}
 
 	@Override
-	public void check(CommandLine line) throws PermissionException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void check(CommandLine line) throws PermissionException {}
 }
