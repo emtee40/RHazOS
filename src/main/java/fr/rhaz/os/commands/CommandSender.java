@@ -7,6 +7,6 @@ public abstract class CommandSender {
 	
 	@SuppressWarnings("unchecked")
 	public <T> T as(Class<T> type) {
-		return this.getClass().isAssignableFrom(type)? null:(T) this;
+		return getClass().isAssignableFrom(type)? (T) this: null;
 	}
 }
