@@ -2,6 +2,7 @@ package fr.rhaz.os;
 
 import fr.rhaz.events.Event;
 import fr.rhaz.events.EventManager;
+import fr.rhaz.events.EventRunnable;
 import fr.rhaz.os.OSEvent.OSEventType;
 import fr.rhaz.os.commands.Command;
 import fr.rhaz.os.plugins.PluginManager;
@@ -71,6 +72,10 @@ public class OS {
 	
 	public void register(Command command) {
 		getConsole().getCommandManager().register(command);
+	}
+	
+	public void register(EventRunnable<? extends Event> runnable) {
+		getEventManager().register(runnable);
 	}
 	
 	public void call(Event event) {
