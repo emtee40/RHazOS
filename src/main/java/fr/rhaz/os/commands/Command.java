@@ -82,7 +82,7 @@ public class Command {
 	}
 	
 	private void sortExecutors() {
-		executors.sort(new Comparator<CommandExecutor>() {
+		Collections.sort(executors, new Comparator<CommandExecutor>() {
 
 			@Override
 			public int compare(CommandExecutor e1, CommandExecutor e2) {

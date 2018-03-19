@@ -8,13 +8,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 import java.util.jar.JarFile;
 
 import fr.rhaz.os.OS;
 import fr.rhaz.os.Unthrow;
 import fr.rhaz.os.Unthrow.IProc0;
 import fr.rhaz.os.java.BiConsumer;
+import fr.rhaz.os.java.Consumer;
 import fr.rhaz.os.plugins.PluginEvent.PluginEventType;
 
 public class PluginManager {

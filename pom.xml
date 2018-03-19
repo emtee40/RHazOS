@@ -151,12 +151,6 @@
 	
 	<dependencies>
 	<dependency>
-		<groupId>fr.rhaz</groupId>
-		<artifactId>events</artifactId>
-		<version>1.0</version>
-		<scope>compile</scope>
-	</dependency>
-	<dependency>
 		<groupId>net.md-5</groupId>
    	    <artifactId>bungeecord-config</artifactId>
 		<version>1.12-SNAPSHOT</version>
