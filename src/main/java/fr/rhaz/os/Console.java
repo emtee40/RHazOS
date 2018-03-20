@@ -102,9 +102,7 @@ public class Console extends Thread {
 			String line;
 			while((line = getInput().read()) != null) {
 				
-				ConsoleReadEvent e = new ConsoleReadEvent(getOS().getConsole(), line);
-				getOS().call(e);
-				if(!e.isCancelled()) process(e.getLine());
+				process(line);
 				
 				try {
 					Thread.sleep(500);
@@ -131,7 +129,9 @@ public class Console extends Thread {
 
 	public void process(String line) {
 		try {
-			getCommandManager().run(getArgs(line), line);
+			ConsoleReadEvent e = new ConsoleReadEvent(getOS().getConsole(), line);
+			getOS().call(e);
+			if(!e.isCancelled()) getCommandManager().run(getArgs(e.getLine()), e.getLine());
 		} catch (PermissionException | ArgumentException e) {
 			getLogger().write(e.getMessage());
 		}
