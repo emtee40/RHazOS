@@ -20,7 +20,7 @@ public class EventManager {
 		register(Priority.NORMAL, runnable);
 	}
 	
-	public void register(Priority priority, EventRunnable<? extends Event> runnable) {
+	public synchronized void register(Priority priority, EventRunnable<? extends Event> runnable) {
 		switch(priority) {
 			case FIRST:{
 				firsts.add(runnable); break;
@@ -34,7 +34,7 @@ public class EventManager {
 		}
 	}
 	
-	public void call(final Event event) {
+	public synchronized void call(final Event event) {
 		
 		Consumer<? super EventRunnable<? extends Event>> call = new Consumer<EventRunnable<? extends Event>>() {
 			@Override
