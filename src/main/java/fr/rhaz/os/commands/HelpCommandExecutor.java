@@ -28,7 +28,7 @@ public class HelpCommandExecutor extends CommandExecutor {
 			try {
 				ex.check(line);
 				if(ex.getArguments().length==0) continue;
-				String l = line.getAlias()+ " " + (ex.toString().equals("")?"":ex)+(ex.getDescription().isEmpty()?"":(": "+ex.getDescription()));
+				String l = (line.getAlias().isEmpty()?"":(line.getAlias()+" ")) + (ex.toString().equals("")?"":ex)+(ex.getDescription().isEmpty()?"":(": "+ex.getDescription()));
 				list.add(l);
 			} catch(PermissionException e2) {}
 		}
@@ -40,7 +40,7 @@ public class HelpCommandExecutor extends CommandExecutor {
 					try {
 						subex.check(line);
 						list.add(
-							line.getAlias()+" "
+							(line.getAlias().isEmpty()?"":(line.getAlias()+" "))
 							+Utils.join(",", sub.getAliases())
 							+(subex.toString().equals("")?"":(" "+subex))
 							+(subex.getDescription().isEmpty()?

@@ -8,7 +8,7 @@
         <item>
             <title>TestPlugin (v1.0)</title>
             <description><![CDATA[Test plugin.<br>Command: test]]></description>
-            <link>https://rawgit.com/RHazDev/RHazOS/master/plugins/testplugin-1.0.jar</link>
+            <link>https://rawgit.com/RHazDev/TestPlugin/master/target/testplugin-1.0.jar</link>
         </item>
     </channel>
 </rss>

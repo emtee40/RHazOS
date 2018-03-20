@@ -2,6 +2,8 @@ package fr.rhaz.os.logging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
+
 import fr.rhaz.os.java.Function;
 import fr.rhaz.os.java.Predicate;
 
@@ -12,6 +14,7 @@ public class Logger {
 	private ArrayList<Output<?>> outputs = new ArrayList<>();
 	private Predicate<String> filter;
 	private Function<String, String> formatter;
+	private AtomicReference<Thread> process = new AtomicReference<Thread>(null);
 
 	public Logger(String title, Output<?> out) {
 		this.title = title;
@@ -44,7 +47,35 @@ public class Logger {
 		return this.parent != null;
 	}
 	
+	public void setOverridingProcess(Thread process) {
+		this.process.set(process);
+	}
+	
+	public Thread getOverridingProcess() {
+		return process.get();
+	}
+	
+	public void resetOverridingProcess() {
+		this.process.set(null);
+	}
+	
+	public boolean checkOverridingProcess() {
+		Thread t = Thread.currentThread();
+		
+		if(getOverridingProcess() == null) return true;
+		
+		if(getOverridingProcess() != t) return false;
+		
+		if(getOverridingProcess().isInterrupted())
+			resetOverridingProcess();
+		
+		return true;
+	}
+	
 	public void write(String msg) {
+			
+		if(!checkOverridingProcess())
+			return;
 		
 		if(filter(msg)) return;
 			

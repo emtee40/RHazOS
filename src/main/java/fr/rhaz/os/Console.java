@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import fr.rhaz.events.CancellableEvent;
+import fr.rhaz.events.Event;
 import fr.rhaz.os.commands.ArgumentException;
 import fr.rhaz.os.commands.CommandManager;
+import fr.rhaz.os.commands.ConsoleSender;
 import fr.rhaz.os.commands.ExecutionException;
 import fr.rhaz.os.commands.PermissionException;
 import fr.rhaz.os.java.Function;
@@ -56,6 +59,10 @@ public class Console extends Thread {
 		reader.thread().start();
 	}
 	
+	public ConsoleSender getSender() {
+		return getCommandManager().getSender();
+	}
+	
 	public String date(String format) {
 		return new SimpleDateFormat(format).format(new Date());
 	}
@@ -91,12 +98,17 @@ public class Console extends Thread {
 		
 		@Override
 		public void run() {
+			
 			String line;
 			while((line = getInput().read()) != null) {
-				process(line);
+				
+				ConsoleReadEvent e = new ConsoleReadEvent(getOS().getConsole(), line);
+				getOS().call(e);
+				if(!e.isCancelled()) process(e.getLine());
+				
 				try {
 					Thread.sleep(500);
-				} catch (InterruptedException e) {
+				} catch (InterruptedException ex) {
 					return;
 				}
 			}
@@ -104,26 +116,50 @@ public class Console extends Thread {
 		}
 		
 	}
+	
+	public static String[] getArgs(String line) {
+		Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(line);
+		List<String> list = new ArrayList<String>();
+		while (m.find()) {
+			String msg = m.group(1);
+			if(msg.startsWith("\"") && msg.endsWith("\""))
+				msg = msg.substring(1, msg.length()-1);
+			list.add(msg);
+		}
+		return list.toArray(new String[list.size()]);
+	}
 
 	public void process(String line) {
 		try {
-			Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(line);
-			List<String> list = new ArrayList<String>();
-			while (m.find()) {
-				String msg = m.group(1);
-				if(msg.startsWith("\"") && msg.endsWith("\""))
-					msg = msg.substring(1, msg.length()-1);
-				list.add(msg);
-			}
-			getCommandManager().run(list.toArray(new String[list.size()]), line);
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (PermissionException e) {
+			getCommandManager().run(getArgs(line), line);
+		} catch (PermissionException | ArgumentException e) {
 			getLogger().write(e.getMessage());
-		} catch (ArgumentException e) {
-			getLogger().write(e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
+		}
+	}
+	
+	public static class ConsoleReadEvent extends CancellableEvent{
+		private String line;
+		private Console console;
+
+		public ConsoleReadEvent(Console console, String line) {
+			this.console = console;
+			this.line = line;
+		}
+		
+		public Console getConsole() {
+			return console;
+		}
+		
+		public ConsoleSender getSender() {
+			return console.getSender();
+		}
+		
+		public String getLine() {
+			return line;
+		}
+		
+		public void setLine(String line) {
+			this.line = line;
 		}
 	}
 }

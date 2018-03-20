@@ -3,7 +3,7 @@ package fr.rhaz.os;
 import fr.rhaz.events.Event;
 import fr.rhaz.events.EventManager;
 import fr.rhaz.events.EventRunnable;
-import fr.rhaz.os.OSEvent.OSEventType;
+import fr.rhaz.os.OS.OSEvent.OSEventType;
 import fr.rhaz.os.commands.Command;
 import fr.rhaz.os.plugins.PluginManager;
 
@@ -90,5 +90,22 @@ public class OS {
 		JAVA,
 		ANDROID,
 		OTHER;
+	}
+	
+	public static class OSEvent extends Event {
+		
+		private OSEventType type;
+
+		public OSEvent(OSEventType type) {
+			this.type = type;
+		}
+		
+		public OSEventType getType() {
+			return type;
+		}
+		
+		public static enum OSEventType{
+			STARTED;
+		}
 	}
 }

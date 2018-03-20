@@ -62,17 +62,21 @@ public class CommandManager {
 		register(help);
 	}
 	
+	public ConsoleSender getSender() {
+		return sender;
+	}
+	
 	public ArrayList<Command> commands;
 	
 	public void register(Command command) {
 		commands.add(command);
 	}
 	
-	public void run(String[] line, String raw) throws ExecutionException, PermissionException, ArgumentException {
+	public void run(String[] line, String raw) throws ArgumentException, PermissionException {
 		run(sender, line, raw);
 	}
 	
-	public void run(CommandSender sender, String[] line, String raw) throws ExecutionException, PermissionException, ArgumentException {
+	public void run(CommandSender sender, String[] line, String raw) throws ArgumentException, PermissionException {
 	
 		if(line.length == 0) return;
 		
@@ -81,7 +85,16 @@ public class CommandManager {
 				command.check(line[0]);
 				command.check(sender);
 				String[] args = Utils.removeFirst(line);
-				command.run(line[0], sender, args, raw);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							command.run(line[0], sender, args, raw);
+						} catch (ExecutionException | PermissionException | ArgumentException e) {
+							sender.write(e.getMessage());
+						}
+					}
+				}).start();
 				return;
 			} catch (ArgumentException e) {}
 		}
