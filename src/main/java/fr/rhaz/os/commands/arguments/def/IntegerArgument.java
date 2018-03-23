@@ -1,8 +1,8 @@
-package fr.rhaz.os.commands.arguments;
+package fr.rhaz.os.commands.arguments.def;
 
-import fr.rhaz.os.commands.Argument;
-import fr.rhaz.os.commands.ArgumentException;
 import fr.rhaz.os.commands.ExecutionException;
+import fr.rhaz.os.commands.arguments.Argument;
+import fr.rhaz.os.commands.arguments.ArgumentException;
 
 public class IntegerArgument extends Argument<Integer> {
 

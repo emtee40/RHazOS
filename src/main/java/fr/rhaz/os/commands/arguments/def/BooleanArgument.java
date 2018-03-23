@@ -1,11 +1,11 @@
-package fr.rhaz.os.commands.arguments;
+package fr.rhaz.os.commands.arguments.def;
 
 import java.util.Arrays;
 import java.util.List;
 
-import fr.rhaz.os.commands.Argument;
-import fr.rhaz.os.commands.ArgumentException;
 import fr.rhaz.os.commands.ExecutionException;
+import fr.rhaz.os.commands.arguments.Argument;
+import fr.rhaz.os.commands.arguments.ArgumentException;
 
 public class BooleanArgument extends Argument<Boolean> {
 	

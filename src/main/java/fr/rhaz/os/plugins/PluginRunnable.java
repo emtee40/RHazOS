@@ -83,11 +83,11 @@ public class PluginRunnable implements Runnable {
 			return plugin;
 		}
 		
-		public void executeTask() {
+		private void executeTask() {
 			if(tasks.size() == 0) return;
 			Runnable task = tasks.get(0);
 			tasks.remove(0);
-			task.run();
+			new Thread(task).start();
 		}
 		
 		public void addTask(Runnable task) {

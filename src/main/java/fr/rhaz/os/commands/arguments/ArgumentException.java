@@ -1,4 +1,4 @@
-package fr.rhaz.os.commands;
+package fr.rhaz.os.commands.arguments;
 
 public class ArgumentException extends Exception {
 	

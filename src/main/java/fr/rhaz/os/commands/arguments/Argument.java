@@ -1,4 +1,6 @@
-package fr.rhaz.os.commands;
+package fr.rhaz.os.commands.arguments;
+
+import fr.rhaz.os.commands.ExecutionException;
 
 public abstract class Argument<T> {
 	

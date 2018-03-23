@@ -6,6 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import fr.rhaz.os.Utils;
+import fr.rhaz.os.commands.arguments.ArgumentException;
+import fr.rhaz.os.commands.permissions.PermissionException;
+import fr.rhaz.os.commands.users.CommandSender;
 
 public class Command {
 	private List<String> aliases;

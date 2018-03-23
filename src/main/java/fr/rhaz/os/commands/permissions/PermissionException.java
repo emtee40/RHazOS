@@ -1,4 +1,4 @@
-package fr.rhaz.os.commands;
+package fr.rhaz.os.commands.permissions;
 
 public class PermissionException extends Exception {
 	

@@ -1,5 +1,9 @@
 package fr.rhaz.os.commands;
 
+import fr.rhaz.os.commands.arguments.Argument;
+import fr.rhaz.os.commands.arguments.ArgumentException;
+import fr.rhaz.os.commands.permissions.PermissionException;
+
 public abstract class CommandExecutor {
 	@SuppressWarnings("rawtypes")
 	private Argument[] args;

@@ -8,12 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.rhaz.events.CancellableEvent;
-import fr.rhaz.events.Event;
-import fr.rhaz.os.commands.ArgumentException;
 import fr.rhaz.os.commands.CommandManager;
-import fr.rhaz.os.commands.ConsoleSender;
-import fr.rhaz.os.commands.ExecutionException;
-import fr.rhaz.os.commands.PermissionException;
+import fr.rhaz.os.commands.arguments.ArgumentException;
+import fr.rhaz.os.commands.permissions.PermissionException;
+import fr.rhaz.os.commands.users.User;
 import fr.rhaz.os.java.Function;
 import fr.rhaz.os.logging.ConsoleInput;
 import fr.rhaz.os.logging.ConsoleOutput;
@@ -57,10 +55,6 @@ public class Console extends Thread {
 				}
 		);
 		reader.thread().start();
-	}
-	
-	public ConsoleSender getSender() {
-		return getCommandManager().getSender();
 	}
 	
 	public String date(String format) {
@@ -150,8 +144,8 @@ public class Console extends Thread {
 			return console;
 		}
 		
-		public ConsoleSender getSender() {
-			return console.getSender();
+		public User getUser() {
+			return console.getOS().getUser();
 		}
 		
 		public String getLine() {

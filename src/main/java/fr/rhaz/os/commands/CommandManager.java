@@ -1,86 +1,71 @@
 package fr.rhaz.os.commands;
 
 import java.util.ArrayList;
-import java.util.Collections;
-
 import fr.rhaz.os.OS;
 import fr.rhaz.os.Utils;
+import fr.rhaz.os.commands.arguments.ArgumentException;
+import fr.rhaz.os.commands.def.ExitCommand;
+import fr.rhaz.os.commands.def.HelpCommand;
+import fr.rhaz.os.commands.def.SuCommand;
+import fr.rhaz.os.commands.def.SudoCommand;
+import fr.rhaz.os.commands.def.WhoAmICommand;
+import fr.rhaz.os.commands.permissions.PermissionException;
+import fr.rhaz.os.commands.users.CommandSender;
 
 public class CommandManager {
 	
-	private ConsoleSender sender;
-	private Command help;
+	private OS os;
+	
+	private HelpCommand help;
+	private SuCommand su;
+	private WhoAmICommand whoami;
+	private ExitCommand exit;
+
+	private SudoCommand sudo;
 
 	public CommandManager(OS os) {
+		this.os = os;
 		this.commands = new ArrayList<>();
-		this.sender = new ConsoleSender(os);
 		
-		this.help = new Command("help").setDescription("Help")
-				.addExecutor(new CommandExecutor() {
-			
-			@Override
-			public void run(CommandLine line) throws ExecutionException {
-				ArrayList<String> list = new ArrayList<>();
-				for(Command cmd:commands) {
-					try {
-						cmd.check(line.getSender());
-						
-						ArrayList<CommandExecutor> exs = new ArrayList<>(cmd.getExecutors());
-						Collections.reverse(exs);
-						
-						for(CommandExecutor ex:exs) {
-							try {
-								ex.check(line);
-								list.add(
-									Utils.join(",", cmd.getAliases())
-									+(ex.toString().equals("")?"":(" "+ex))
-									+(ex.getDescription().isEmpty()?
-										(ex.getArguments().length==0?
-												(cmd.getDescription().isEmpty()?"":(": "+cmd.getDescription())):"")
-									:(": "+ex.getDescription()))
-								);
-							} catch(PermissionException e2) {}
-						}
-					} catch (PermissionException e) {}
-				}
-				
-				if(list.isEmpty()) {
-					line.getSender().write("There is not any command.");
-					return;
-				}
-				
-				line.getSender().write("\n		Help\n");
-				for(String msg:list) line.getSender().write(msg);
-			}
-
-			@Override
-			public void check(CommandLine line) throws PermissionException {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		help = new HelpCommand(this);
 		register(help);
+		
+		su = new SuCommand(this);
+		register(su);
+		
+		whoami = new WhoAmICommand();
+		register(whoami);
+		
+		exit = new ExitCommand(this);
+		register(exit);
+		
+		sudo = new SudoCommand(this);
+		register(sudo);
 	}
 	
-	public ConsoleSender getSender() {
-		return sender;
+	public OS getOS() {
+		return os;
 	}
 	
-	public ArrayList<Command> commands;
+	private ArrayList<Command> commands;
+	
+	public ArrayList<Command> getCommands(){
+		return commands;
+	}
 	
 	public void register(Command command) {
 		commands.add(command);
 	}
 	
 	public void run(String[] line, String raw) throws ArgumentException, PermissionException {
-		run(sender, line, raw);
+		run(getOS().getUser(), line, raw);
 	}
 	
-	public void run(CommandSender sender, String[] line, String raw) throws ArgumentException, PermissionException {
+	public void run(final CommandSender sender, final String[] line, final String raw) throws ArgumentException, PermissionException {
 	
 		if(line.length == 0) return;
 		
-		for(Command command:commands) {
+		for(final Command command:commands) {
 			try {
 				command.check(line[0]);
 				command.check(sender);

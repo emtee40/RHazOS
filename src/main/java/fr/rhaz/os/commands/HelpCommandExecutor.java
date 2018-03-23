@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import fr.rhaz.os.Utils;
+import fr.rhaz.os.commands.permissions.PermissionException;
 
 public class HelpCommandExecutor extends CommandExecutor {
 	

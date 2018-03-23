@@ -86,4 +86,8 @@ public abstract class Plugin {
 		this.runnable = pluginRunnable;
 	}
 	
+	public PluginRunnable getRunnable() {
+		return runnable;
+	}
+	
 }

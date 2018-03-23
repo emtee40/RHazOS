@@ -1,5 +1,6 @@
-package fr.rhaz.os.commands;
+package fr.rhaz.os.commands.permissions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -7,20 +8,36 @@ import java.util.function.Predicate;
 
 public class PermissionManager {
 	
-	public Permission all = new Permission("*");
+	public static Permission all = new Permission("*");
 	
-	public HashSet<Permission> merge(Collection<Collection<Permission>> lists){
+	public static HashSet<Permission> merge(Collection<Collection<Permission>> lists){
 		HashSet<Permission> permissions = new HashSet<>();
 		for(Collection<Permission> list:lists)
 			permissions.addAll(list);
 		return calculate(permissions);
 	}
 	
-	public HashSet<Permission> calculate(Permission... array){
+	public static HashSet<Permission> calculate(Permission... array){
 		return calculate(Arrays.asList(array));
 	}
 	
-	public HashSet<Permission> calculate(Collection<Permission> list){
+	public static ArrayList<Permission> from(Collection<String> list){
+		ArrayList<Permission> perms = new ArrayList<>();
+		for(String str:list)
+			perms.add(new Permission(str));
+		
+		return perms;
+	}
+	
+	public static ArrayList<Permission> from(String... list){
+		ArrayList<Permission> perms = new ArrayList<>();
+		for(String str:list)
+			perms.add(new Permission(str));
+		
+		return perms;
+	}
+	
+	public static HashSet<Permission> calculate(Collection<Permission> list){
 		HashSet<Permission> permissions = new HashSet<>();
 		for(Permission permission:list) {
 			
@@ -48,7 +65,7 @@ public class PermissionManager {
 		return permissions;
 	}
 	
-	public boolean has(HashSet<Permission> permissions, Permission perm) {
+	public static boolean has(HashSet<Permission> permissions, Permission perm) {
 		
 		if(permissions.contains(all))
 			return true;
