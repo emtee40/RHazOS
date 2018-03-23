@@ -69,7 +69,7 @@ public class CommandManager {
 			try {
 				command.check(line[0]);
 				command.check(sender);
-				String[] args = Utils.removeFirst(line);
+				final String[] args = Utils.removeFirst(line);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {

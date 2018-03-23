@@ -15,7 +15,7 @@ public class SudoCommand extends Command {
 	
 	private Permission permission;
 
-	public SudoCommand(CommandManager cman) {
+	public SudoCommand(final CommandManager cman) {
 		super("sudo");
 		this.permission = new Permission("os.cmd.sudo");
 		addExecutor(new CommandExecutor() {

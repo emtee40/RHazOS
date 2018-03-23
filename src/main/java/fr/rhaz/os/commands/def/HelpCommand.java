@@ -13,7 +13,7 @@ import fr.rhaz.os.commands.permissions.PermissionException;
 
 public class HelpCommand extends Command{
 
-	public HelpCommand(CommandManager cman) {
+	public HelpCommand(final CommandManager cman) {
 		super("help");
 		setDescription("Help");
 		addExecutor(new CommandExecutor() {

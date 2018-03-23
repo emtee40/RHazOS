@@ -13,7 +13,7 @@ public class SuCommand extends Command{
 	
 	private Permission permission;
 
-	public SuCommand(CommandManager cman) {
+	public SuCommand(final CommandManager cman) {
 		super("su");
 		this.permission = new Permission("os.cmd.su");
 		addExecutor(new CommandExecutor(new StringArgument()) {

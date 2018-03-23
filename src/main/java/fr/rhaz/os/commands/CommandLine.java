@@ -1,12 +1,12 @@
 package fr.rhaz.os.commands;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import fr.rhaz.os.Utils;
 import fr.rhaz.os.commands.arguments.Argument;
 import fr.rhaz.os.commands.arguments.ArgumentException;
 import fr.rhaz.os.commands.users.CommandSender;
+import fr.rhaz.os.java.Optional;
 
 public class CommandLine {
 	private String raw;

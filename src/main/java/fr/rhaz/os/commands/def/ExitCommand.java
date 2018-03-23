@@ -9,7 +9,7 @@ import fr.rhaz.os.commands.ExecutionException;
 import fr.rhaz.os.commands.users.User;
 
 public class ExitCommand extends Command {
-	public ExitCommand(CommandManager cman) {
+	public ExitCommand(final CommandManager cman) {
 		super("exit");
 		addExecutor(new CommandExecutor() {
 			
