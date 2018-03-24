@@ -45,7 +45,7 @@ public class DashArgument<T> extends Argument<Entry<String, T>> {
 	public Parameter<T> get(String value) throws ExecutionException {
 		String[] split = value.split("=");
 		if(split.length == 2)
-			return new Parameter<T>(split[0], sub.get(split[1]));
+			return new Parameter<T>(split[0].substring(1), sub.get(split[1]));
 		else return null;
 	}
 
