@@ -1,10 +1,8 @@
 package fr.rhaz.os.plugins;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import fr.rhaz.events.Event;
-import fr.rhaz.os.plugins.PluginEvent.PluginEventType;
 
 public class PluginRunnable implements Runnable {
 

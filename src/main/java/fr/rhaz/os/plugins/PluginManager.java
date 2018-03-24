@@ -15,7 +15,6 @@ import fr.rhaz.os.Unthrow;
 import fr.rhaz.os.Unthrow.IProc0;
 import fr.rhaz.os.java.BiConsumer;
 import fr.rhaz.os.java.Consumer;
-import fr.rhaz.os.plugins.PluginEvent.PluginEventType;
 
 public class PluginManager {
 	private OS os;
