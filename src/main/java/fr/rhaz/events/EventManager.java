@@ -8,12 +8,12 @@ import fr.rhaz.os.java.Consumer;
 
 public class EventManager {
 
-	private Map<Integer, List<EventRunnable<? extends Event>>> events;
+	private Map<Integer, List<EventRunnable<? extends Event>>> runnables;
 	
 	public EventManager() {
-		events.put(0, new ArrayList<EventRunnable<? extends Event>>());
-		events.put(1, new ArrayList<EventRunnable<? extends Event>>());
-		events.put(2, new ArrayList<EventRunnable<? extends Event>>());
+		runnables.put(0, new ArrayList<EventRunnable<? extends Event>>());
+		runnables.put(1, new ArrayList<EventRunnable<? extends Event>>());
+		runnables.put(2, new ArrayList<EventRunnable<? extends Event>>());
 	}
 	
 	public void register(EventRunnable<? extends Event> runnable) {
@@ -23,13 +23,13 @@ public class EventManager {
 	public synchronized void register(Priority priority, EventRunnable<? extends Event> runnable) {
 		switch(priority) {
 			case FIRST:{
-				events.get(0).add(runnable); break;
+				runnables.get(0).add(runnable); break;
 			}
 			case NORMAL:{
-				events.get(1).add(runnable); break;
+				runnables.get(1).add(runnable); break;
 			}
 			case LAST:{
-				events.get(2).add(runnable); break;
+				runnables.get(2).add(runnable); break;
 			}
 		}
 	}
@@ -57,16 +57,16 @@ public class EventManager {
 			}
 		};
 		
-		for(EventRunnable<? extends Event> plugin:events.get(0)) call.accept(plugin);
-		for(EventRunnable<? extends Event> plugin:events.get(1)) call.accept(plugin);
-		for(EventRunnable<? extends Event> plugin:events.get(2)) call.accept(plugin);
+		for(EventRunnable<? extends Event> plugin:runnables.get(0)) call.accept(plugin);
+		for(EventRunnable<? extends Event> plugin:runnables.get(1)) call.accept(plugin);
+		for(EventRunnable<? extends Event> plugin:runnables.get(2)) call.accept(plugin);
 	}
 	
 	public ArrayList<EventRunnable<? extends Event>> getAllRunnables(){
 		ArrayList<EventRunnable<? extends Event>> runnables = new ArrayList<>();
-		runnables.addAll(events.get(0));
-		runnables.addAll(events.get(1));
-		runnables.addAll(events.get(2));
+		runnables.addAll(this.runnables.get(0));
+		runnables.addAll(this.runnables.get(1));
+		runnables.addAll(this.runnables.get(2));
 		return runnables;
 	}
 }
