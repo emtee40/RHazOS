@@ -13,4 +13,17 @@ public class Utils {
 		return new ArrayList<>(Arrays.asList(array));
 	}
 
+	public static String join(final String join, final String... strs) {
+        String result = "";
+        for (final String str : strs) 
+            result += (str.equals(strs[0]) ? str : (str + join));
+        return result;
+    }
+    
+    public static String join(final String join, final List<String> strs) {
+        String result = "";
+        for (final String str : strs) 
+            result = result + str + join;
+        return result.substring(0, result.length() - join.length());
+    }
 }

@@ -42,7 +42,7 @@ public class HelpCommandExecutor extends CommandExecutor {
 						subex.check(line);
 						list.add(
 							(line.getAlias().isEmpty()?"":(line.getAlias()+" "))
-							+String.join(",", sub.getAliases())
+							+Utils.join(",", sub.getAliases())
 							+(subex.toString().equals("")?"":(" "+subex))
 							+(subex.getDescription().isEmpty()?
 								(subex.getArguments().length==0?
