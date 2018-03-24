@@ -64,9 +64,9 @@ public class EventManager {
 	
 	public ArrayList<EventRunnable<? extends Event>> getAllRunnables(){
 		ArrayList<EventRunnable<? extends Event>> runnables = new ArrayList<>();
-		runnables.addAll(firsts);
-		runnables.addAll(normals);
-		runnables.addAll(lasts);
+		runnables.addAll(events.get(0));
+		runnables.addAll(events.get(1));
+		runnables.addAll(events.get(2));
 		return runnables;
 	}
 }
