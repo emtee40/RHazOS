@@ -29,6 +29,11 @@ public class SuCommand extends Command{
 			}
 			
 			@Override
+			public String toString() {
+				return "<user>";
+			}
+			
+			@Override
 			public void check(CommandLine line) throws PermissionException {
 				if(!line.getSender().has(permission))
 					throw new PermissionException("You do not have permission");

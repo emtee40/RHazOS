@@ -18,7 +18,7 @@ public class SudoCommand extends Command {
 	public SudoCommand(final CommandManager cman) {
 		super("sudo");
 		this.permission = new Permission("os.cmd.sudo");
-		addExecutor(new CommandExecutor() {
+		addExecutor(new CommandExecutor(new StringArgument(), new StringArgument()) {
 			
 			@Override
 			public void run(CommandLine line) throws ExecutionException {
@@ -32,6 +32,11 @@ public class SudoCommand extends Command {
 				} catch(NullPointerException ex) {
 					throw new ExecutionException(ex.getMessage());
 				}
+			}
+			
+			@Override
+			public String toString() {
+				return "<user> <command>";
 			}
 			
 			@Override
