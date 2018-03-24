@@ -10,5 +10,11 @@
             <description><![CDATA[Test plugin.<br>Command: test]]></description>
             <link>https://rawgit.com/RHazDev/TestPlugin/master/target/testplugin-1.0.jar</link>
         </item>
+        
+        <item>
+            <title>APIThis (v1.0)</title>
+            <description><![CDATA[https://apithis.net/]]></description>
+            <link>https://rawgit.com/RHazDev/RHazOS/master/plugins/apithis-1.0.jar</link>
+        </item>
     </channel>
 </rss>
