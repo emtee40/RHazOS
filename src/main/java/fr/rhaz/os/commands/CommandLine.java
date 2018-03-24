@@ -1,8 +1,8 @@
 package fr.rhaz.os.commands;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import fr.rhaz.os.Utils;
 import fr.rhaz.os.commands.arguments.Argument;
 import fr.rhaz.os.commands.arguments.ArgumentException;
 import fr.rhaz.os.commands.users.CommandSender;
@@ -10,8 +10,8 @@ import fr.rhaz.os.java.Optional;
 
 public class CommandLine {
 	private String raw;
-	private ArrayList<String> values;
-	private ArrayList<Argument<?>> args;
+	private List<String> values;
+	private List<Argument<?>> args;
 	private CommandSender sender;
 	private String[] line;
 	private Command command;
@@ -28,9 +28,9 @@ public class CommandLine {
 		
 		this.sender = sender;
 		
-		this.args = Utils.list(args);
+		this.args = Arrays.asList(args);
 		
-		this.values = Utils.list(line);
+		this.values = Arrays.asList(line);
 	}
 	
 	public String getAlias() {

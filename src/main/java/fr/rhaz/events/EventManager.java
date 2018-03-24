@@ -1,19 +1,19 @@
 package fr.rhaz.events;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import fr.rhaz.os.java.Consumer;
 
 public class EventManager {
 
-	private ArrayList<EventRunnable<? extends Event>> firsts;
-	private ArrayList<EventRunnable<? extends Event>> normals;
-	private ArrayList<EventRunnable<? extends Event>> lasts;
+	private Map<Integer, List<EventRunnable<? extends Event>>> events;
 	
 	public EventManager() {
-		firsts = new ArrayList<>();
-		normals = new ArrayList<>();
-		lasts = new ArrayList<>();
+		events.put(0, new ArrayList<EventRunnable<? extends Event>>());
+		events.put(1, new ArrayList<EventRunnable<? extends Event>>());
+		events.put(2, new ArrayList<EventRunnable<? extends Event>>());
 	}
 	
 	public void register(EventRunnable<? extends Event> runnable) {
@@ -23,13 +23,13 @@ public class EventManager {
 	public synchronized void register(Priority priority, EventRunnable<? extends Event> runnable) {
 		switch(priority) {
 			case FIRST:{
-				firsts.add(runnable); break;
+				events.get(0).add(runnable); break;
 			}
 			case NORMAL:{
-				normals.add(runnable); break;
+				events.get(1).add(runnable); break;
 			}
 			case LAST:{
-				lasts.add(runnable); break;
+				events.get(2).add(runnable); break;
 			}
 		}
 	}
@@ -57,9 +57,9 @@ public class EventManager {
 			}
 		};
 		
-		for(EventRunnable<? extends Event> plugin:firsts) call.accept(plugin);
-		for(EventRunnable<? extends Event> plugin:normals) call.accept(plugin);
-		for(EventRunnable<? extends Event> plugin:lasts) call.accept(plugin);
+		for(EventRunnable<? extends Event> plugin:events.get(0)) call.accept(plugin);
+		for(EventRunnable<? extends Event> plugin:events.get(1)) call.accept(plugin);
+		for(EventRunnable<? extends Event> plugin:events.get(2)) call.accept(plugin);
 	}
 	
 	public ArrayList<EventRunnable<? extends Event>> getAllRunnables(){

@@ -1,6 +1,7 @@
 package fr.rhaz.os.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,7 +32,7 @@ public class Command {
 	}
 	
 	public Command(String... aliases) {
-		this.aliases = Utils.list(aliases);
+		this.aliases = Arrays.asList(aliases);
 		this.executors = new ArrayList<>();
 		this.subcommands = new ArrayList<>();
 		this.desc = "";

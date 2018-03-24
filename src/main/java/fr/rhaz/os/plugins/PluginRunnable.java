@@ -71,7 +71,7 @@ public class PluginRunnable implements Runnable {
 		
 		public void enable() {
 			plugin.setEnabling();
-			Event e = new PluginEvent(plugin.getDescription(), PluginEventType.ENABLED);
+			Event e = new PluginEvent(plugin.getDescription(), PluginEvent.Type.ENABLED);
 			getPluginManager().getOS().getEventManager().call(e);
 		}
 		

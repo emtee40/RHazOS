@@ -1,13 +1,11 @@
 package fr.rhaz.os.commands.arguments.def;
 
-import java.util.Map.Entry;
-
 import fr.rhaz.os.commands.ExecutionException;
 import fr.rhaz.os.commands.arguments.Argument;
 import fr.rhaz.os.commands.arguments.ArgumentException;
 import fr.rhaz.os.commands.arguments.Parameter;
 
-public class DashArgument<T> extends Argument<Entry<String, T>> {
+public class DashArgument<T> extends Argument<Parameter<T>> {
 	
 	private String name = null;
 	private Argument<T> sub = null;

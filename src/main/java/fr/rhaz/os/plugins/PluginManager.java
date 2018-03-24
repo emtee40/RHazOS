@@ -134,7 +134,7 @@ public class PluginManager {
 		Thread thread = new Thread(pr);
 		pr.setThread(thread);
 		thread.start();
-		getOS().getEventManager().call(new PluginEvent(desc, PluginEventType.LOADED));
+		getOS().getEventManager().call(new PluginEvent(desc, PluginEvent.Type.LOADED));
 	}
 	
 	public void enableAll() {

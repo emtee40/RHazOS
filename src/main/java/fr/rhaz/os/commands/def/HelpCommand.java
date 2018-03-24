@@ -32,7 +32,7 @@ public class HelpCommand extends Command{
 							try {
 								ex.check(line);
 								list.add(
-									Utils.join(",", cmd.getAliases())
+									String.join(",", cmd.getAliases())
 									+(ex.toString().equals("")?"":(" "+ex))
 									+(ex.getDescription().isEmpty()?
 										(ex.getArguments().length==0?
