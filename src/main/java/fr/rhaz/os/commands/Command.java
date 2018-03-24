@@ -32,7 +32,7 @@ public class Command {
 	}
 	
 	public Command(String... aliases) {
-		this.aliases = Arrays.asList(aliases);
+		this.aliases = Utils.list(aliases);
 		this.executors = new ArrayList<>();
 		this.subcommands = new ArrayList<>();
 		this.desc = "";

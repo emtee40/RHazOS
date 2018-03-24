@@ -1,6 +1,7 @@
 package fr.rhaz.events;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ public class EventManager {
 	private Map<Integer, List<EventRunnable<? extends Event>>> runnables;
 	
 	public EventManager() {
+		runnables = new HashMap<>();
 		runnables.put(0, new ArrayList<EventRunnable<? extends Event>>());
 		runnables.put(1, new ArrayList<EventRunnable<? extends Event>>());
 		runnables.put(2, new ArrayList<EventRunnable<? extends Event>>());
@@ -36,9 +38,9 @@ public class EventManager {
 	
 	public synchronized void call(final Event event) {
 		
-		Consumer<? super EventRunnable<? extends Event>> call = new Consumer<EventRunnable<? extends Event>>() {
+		Consumer<EventRunnable<? extends Event>> call = new Consumer<EventRunnable<? extends Event>>() {
 			@Override
-			public void accept(EventRunnable<? extends Event> r) {
+			public void accept(final EventRunnable<? extends Event> r) {
 				
 				if(!r.type().equals(event.getClass())) return;
 				
@@ -52,7 +54,12 @@ public class EventManager {
 					return;
 				}
 				
-				r.call(event);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						r.call(event);
+					}
+				}).start();
 				
 			}
 		};
