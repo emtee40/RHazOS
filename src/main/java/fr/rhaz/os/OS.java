@@ -24,7 +24,6 @@ public class OS {
 	private OS.Environment environment;
 	private HashSet<User> users;
 	private Element<User> user;
-	private boolean userPrompt;
 	
 	public OS() {
 		this(OS.Environment.JAVA);
@@ -46,9 +45,6 @@ public class OS {
 		Root root = new Root(this);
 		user = new Element<User>(root);
 		users.add(root);	
-		
-		setUserPrompt(true);
-		updatePrompt();
 		
 	}
 	
@@ -158,24 +154,8 @@ public class OS {
 		
 	}
 	
-	public void setUserPrompt(boolean enabled) {
-		this.userPrompt = enabled;
-	}
-	
-	public void updatePrompt() {
-		
-		if(!userPrompt)
-			return;
-		
-		if(!(console.getOutput() instanceof SystemOutput))
-			return;
-		
-		SystemOutput sout = (SystemOutput) console.getOutput();
-		sout.setPrompt("~"+getUser().getName()+"> ");
-	}
-	
 	public void setUser(Element<User> user) {
 		this.user = user;
-		updatePrompt();
+		getConsole().updatePrompt();
 	}
 }

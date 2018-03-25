@@ -29,9 +29,12 @@ public class Console extends Thread {
 	private OS os;
 	private CommandManager cmdman;
 	private Output<?> output;
+	private boolean userPrompt;
+	private String prompt;
+	private String dprompt;
 
 	public Console(OS os) {
-		this(os, new SystemInput(), new SystemOutput("> "));
+		this(os, new SystemInput(), new SystemOutput());
 	}
 	
 	public Console(OS os, Input<?> input, Output<?> output) {
@@ -46,13 +49,48 @@ public class Console extends Thread {
 		
 		this.reader = new Reader(input);
 		
+		setDefaultPrompt("> ");
+		resetPrompt();
+		
 	}
 	
 	public Output<?> getOutput(){
 		return output;
 	}
 	
+	public String getDefaultPrompt() {
+		return dprompt;
+	}
+	
+	public void setDefaultPrompt(String dprompt) {
+		this.dprompt = dprompt;
+	}
+	
+	public void resetPrompt() {
+		prompt = dprompt;
+	}
+	
+	public void setPrompt(String prompt) {
+		this.prompt = prompt;
+	}
+	
+	public void setUserPrompt(boolean enabled) {
+		this.userPrompt = enabled;
+	}
+	
+	public void updatePrompt() {
+		
+		if(!(getOutput() instanceof SystemOutput))
+			return;
+		
+		SystemOutput sout = (SystemOutput) getOutput();
+		sout.setPrompt((userPrompt?("~"+getOS().getUser().getName()):"")+prompt);
+	}
+	
 	public void defaultStart() {
+		
+		setUserPrompt(true);
+		updatePrompt();
 		
 		logger.setFormat(
 				new Function<String, String>() {
