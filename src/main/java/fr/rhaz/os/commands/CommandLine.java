@@ -3,6 +3,7 @@ package fr.rhaz.os.commands;
 import java.util.Arrays;
 import java.util.List;
 
+import fr.rhaz.os.Utils;
 import fr.rhaz.os.commands.arguments.Argument;
 import fr.rhaz.os.commands.arguments.ArgumentException;
 import fr.rhaz.os.commands.users.CommandSender;
@@ -28,9 +29,9 @@ public class CommandLine {
 		
 		this.sender = sender;
 		
-		this.args = Arrays.asList(args);
+		this.args = Utils.list(args);
 		
-		this.values = Arrays.asList(line);
+		this.values = Utils.list(line);
 	}
 	
 	public String getAlias() {

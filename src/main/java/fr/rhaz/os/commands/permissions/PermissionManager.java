@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.function.Predicate;
 
+import fr.rhaz.os.Utils;
+
 public class PermissionManager {
 	
 	public static Permission all = new Permission("*");
@@ -18,7 +20,7 @@ public class PermissionManager {
 	}
 	
 	public static HashSet<Permission> calculate(Permission... array){
-		return calculate(Arrays.asList(array));
+		return calculate(Utils.list(array));
 	}
 	
 	public static ArrayList<Permission> from(Collection<String> list){

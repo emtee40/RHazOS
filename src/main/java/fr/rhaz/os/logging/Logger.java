@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
 
+import fr.rhaz.os.Utils;
 import fr.rhaz.os.java.Function;
 import fr.rhaz.os.java.Predicate;
 
@@ -18,12 +19,12 @@ public class Logger {
 
 	public Logger(String title, Output<?> out) {
 		this.title = title;
-		this.outputs = new ArrayList<>(Arrays.asList(new Output<?>[] {out}));
+		this.outputs = new ArrayList<>(Utils.list(new Output<?>[] {out}));
 	}
 	
 	public Logger(String title, Output<?>... outputs) {
 		this.title = title;
-		this.outputs = new ArrayList<>(Arrays.asList(outputs));
+		this.outputs = new ArrayList<>(Utils.list(outputs));
 	}
 	
 	public Logger(String title, Logger parent) {
@@ -34,13 +35,13 @@ public class Logger {
 	public Logger(String title, Logger parent, Output<?> out) {
 		this.title = title;
 		this.parent = parent;
-		this.outputs = new ArrayList<>(Arrays.asList(new Output<?>[] {out}));
+		this.outputs = new ArrayList<>(Utils.list(new Output<?>[] {out}));
 	}
 	
 	public Logger(String title, Logger parent, Output<?>... outputs) {
 		this.title = title;
 		this.parent = parent;
-		this.outputs = new ArrayList<>(Arrays.asList(outputs));
+		this.outputs = new ArrayList<>(Utils.list(outputs));
 	}
 	
 	public boolean hasParent() {
