@@ -53,7 +53,7 @@ public abstract class CommandExecutor {
 		};
 	}
 
-	public abstract void run(CommandLine line) throws ExecutionException;
+	public abstract void run(CommandLine line) throws ExecutionException, PermissionException, ArgumentException;
 
 	public void check(CommandLine line) throws PermissionException{};
 }

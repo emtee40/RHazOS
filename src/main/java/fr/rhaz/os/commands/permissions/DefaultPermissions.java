@@ -1,9 +1,13 @@
 package fr.rhaz.os.commands.permissions;
 
 public enum DefaultPermissions{
-	RUN("rhazos.run"),
-	SUDO("rhazos.run.sudo", RUN.get()),
-	ALL_RUN("rhazos.run.*")
+	
+	RUN("os.cmd"),
+	ALL_RUN("os.cmd.*"),
+	
+	SUDO("os.cmd.sudo", RUN.get()),
+	SU("os.cmd.su", RUN.get())
+	
 	;
 	
 	private Permission permission;

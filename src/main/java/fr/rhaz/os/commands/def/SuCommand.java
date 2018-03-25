@@ -21,11 +21,7 @@ public class SuCommand extends Command{
 			@Override
 			public void run(CommandLine line) throws ExecutionException {
 				String user = line.read(new StringArgument()).get();
-				try{
-					cman.getOS().su(user);
-				} catch(NullPointerException ex) {
-					throw new ExecutionException(ex.getMessage());
-				}
+				cman.getOS().su(user);
 			}
 			
 			@Override

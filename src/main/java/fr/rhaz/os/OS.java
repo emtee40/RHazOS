@@ -1,6 +1,5 @@
 package fr.rhaz.os;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import fr.rhaz.events.Event;
@@ -9,8 +8,11 @@ import fr.rhaz.events.EventRunnable;
 import fr.rhaz.os.OS.OSEvent.OSEventType;
 import fr.rhaz.os.chains.Element;
 import fr.rhaz.os.commands.Command;
+import fr.rhaz.os.commands.ExecutionException;
 import fr.rhaz.os.commands.users.Root;
 import fr.rhaz.os.commands.users.User;
+import fr.rhaz.os.logging.Output;
+import fr.rhaz.os.logging.def.SystemOutput;
 import fr.rhaz.os.plugins.PluginManager;
 
 public class OS {
@@ -19,15 +21,16 @@ public class OS {
 	private EventManager eventman;
 	private Console console;
 	private Thread thread;
-	private OSEnvironment environment;
+	private OS.Environment environment;
 	private HashSet<User> users;
 	private Element<User> user;
+	private boolean userPrompt;
 	
 	public OS() {
-		this(OSEnvironment.JAVA);
+		this(OS.Environment.JAVA);
 	}
 	
-	public OS(OSEnvironment env) {
+	public OS(OS.Environment env) {
 		
 		environment = env;
 		
@@ -42,11 +45,14 @@ public class OS {
 		users = new HashSet<User>();
 		Root root = new Root(this);
 		user = new Element<User>(root);
-		users.add(root);
+		users.add(root);	
+		
+		setUserPrompt(true);
+		updatePrompt();
 		
 	}
 	
-	public OSEnvironment getEnvironment() {
+	public OS.Environment getEnvironment() {
 		return environment;
 	}
 	
@@ -99,7 +105,7 @@ public class OS {
 		getConsole().process(line);
 	}
 	
-	public static enum OSEnvironment {
+	public static enum Environment {
 		JAVA,
 		ANDROID,
 		OTHER;
@@ -138,21 +144,38 @@ public class OS {
 		return user;
 	}
 
-	public void su(String user) throws NullPointerException{
+	public void su(String user) throws ExecutionException{
 		setUser(new Element<User>(this.user, getUser(user)));
 	}
 	
-	public User getUser(String name) throws NullPointerException{
+	public User getUser(String name) throws ExecutionException {
 		
 		for(User user:users)
 			if(user.getName().equals(name))
 				return user;
 		
-		throw new NullPointerException("User not found");
+		throw new ExecutionException("User not found");
 		
+	}
+	
+	public void setUserPrompt(boolean enabled) {
+		this.userPrompt = enabled;
+	}
+	
+	public void updatePrompt() {
+		
+		if(!userPrompt)
+			return;
+		
+		if(!(console.getOutput() instanceof SystemOutput))
+			return;
+		
+		SystemOutput sout = (SystemOutput) console.getOutput();
+		sout.setPrompt("~"+getUser().getName()+"> ");
 	}
 	
 	public void setUser(Element<User> user) {
 		this.user = user;
+		updatePrompt();
 	}
 }

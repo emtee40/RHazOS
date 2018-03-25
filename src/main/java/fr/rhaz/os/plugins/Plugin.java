@@ -1,5 +1,7 @@
 package fr.rhaz.os.plugins;
 
+import java.io.File;
+
 import fr.rhaz.os.OS;
 
 public abstract class Plugin {

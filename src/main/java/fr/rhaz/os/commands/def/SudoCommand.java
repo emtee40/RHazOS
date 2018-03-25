@@ -21,17 +21,9 @@ public class SudoCommand extends Command {
 		addExecutor(new CommandExecutor(new StringArgument(), new StringArgument()) {
 			
 			@Override
-			public void run(CommandLine line) throws ExecutionException {
+			public void run(CommandLine line) throws ExecutionException, PermissionException, ArgumentException {
 				String user = line.read(new StringArgument()).get();
-				try{
-					try {
-						cman.run(cman.getOS().getUser(user), Utils.removeFirst(line.getLine()), line.getRawLine());
-					} catch (ArgumentException | PermissionException e) {
-						line.getSender().write(e.getMessage());
-					}
-				} catch(NullPointerException ex) {
-					throw new ExecutionException(ex.getMessage());
-				}
+				cman.run(cman.getOS().getUser(user), Utils.removeFirst(line.getLine()), line.getRawLine());
 			}
 			
 			@Override

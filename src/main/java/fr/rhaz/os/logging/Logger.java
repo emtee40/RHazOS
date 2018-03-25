@@ -1,51 +1,40 @@
 package fr.rhaz.os.logging;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.rhaz.os.Utils;
 import fr.rhaz.os.java.Function;
 import fr.rhaz.os.java.Predicate;
+import fr.rhaz.os.logging.def.LoggerOutput;
 
 public class Logger {
 	
-	private String title = "";
-	private Logger parent = null;
-	private ArrayList<Output<?>> outputs = new ArrayList<>();
+	private List<Output<?>> outputs = new ArrayList<>();
 	private Predicate<String> filter;
 	private Function<String, String> formatter;
 	private AtomicReference<Thread> process = new AtomicReference<Thread>(null);
-
-	public Logger(String title, Output<?> out) {
-		this.title = title;
-		this.outputs = new ArrayList<>(Utils.list(new Output<?>[] {out}));
+	
+	public Logger() {}
+	
+	public Logger(Output<?>... outputs) {
+		this.outputs = Utils.list(outputs);
 	}
 	
-	public Logger(String title, Output<?>... outputs) {
-		this.title = title;
-		this.outputs = new ArrayList<>(Utils.list(outputs));
+	public Logger(Collection<Output<?>> outputs) {
+		this.outputs = new ArrayList<>(outputs);
 	}
 	
-	public Logger(String title, Logger parent) {
-		this.title = title;
-		this.parent = parent;
+	public Logger(Logger parent, Output<?>... outputs) {
+		this(outputs);
+		parent.addOutput(new LoggerOutput(this));
 	}
 	
-	public Logger(String title, Logger parent, Output<?> out) {
-		this.title = title;
-		this.parent = parent;
-		this.outputs = new ArrayList<>(Utils.list(new Output<?>[] {out}));
-	}
-	
-	public Logger(String title, Logger parent, Output<?>... outputs) {
-		this.title = title;
-		this.parent = parent;
-		this.outputs = new ArrayList<>(Utils.list(outputs));
-	}
-	
-	public boolean hasParent() {
-		return this.parent != null;
+	public Logger(Logger parent, Collection<Output<?>> outputs) {
+		this(outputs);
+		parent.addOutput(new LoggerOutput(this));
 	}
 	
 	public void setOverridingProcess(Thread process) {
@@ -82,19 +71,16 @@ public class Logger {
 			
 		msg = format(msg);
 		
-		if(hasParent())
-			parent.write(msg);
-		
 		for(Output<?> out:outputs)
 			out.write(msg);
 	}
 	
-	public ArrayList<Output<?>> getOutputs(){
+	public List<Output<?>> getOutputs(){
 		return outputs;
 	}
 	
-	public String getTitle() {
-		return title;
+	public void addOutput(Output<?> output) {
+		outputs.add(output);
 	}
 	
 	public void setFormat(Function<String, String> formatter) {
@@ -102,6 +88,8 @@ public class Logger {
 	}
 	
 	public String format(String msg) {
+		if(formatter == null) return msg;
+		
 		return formatter.apply(msg);
 	}
 	
@@ -111,6 +99,7 @@ public class Logger {
 		return filter.test(msg);
 	}
 	
+	// true = do not write
 	public void setFilter(Predicate<String> filter) {
 		this.filter = filter;
 	}

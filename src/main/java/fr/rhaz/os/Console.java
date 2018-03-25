@@ -1,5 +1,6 @@
 package fr.rhaz.os;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,40 +13,47 @@ import fr.rhaz.os.commands.CommandManager;
 import fr.rhaz.os.commands.arguments.ArgumentException;
 import fr.rhaz.os.commands.permissions.PermissionException;
 import fr.rhaz.os.commands.users.User;
+import fr.rhaz.os.java.Consumer;
 import fr.rhaz.os.java.Function;
-import fr.rhaz.os.logging.ConsoleInput;
-import fr.rhaz.os.logging.ConsoleOutput;
 import fr.rhaz.os.logging.Input;
 import fr.rhaz.os.logging.Logger;
 import fr.rhaz.os.logging.Output;
+import fr.rhaz.os.logging.Reader;
+import fr.rhaz.os.logging.def.SystemInput;
+import fr.rhaz.os.logging.def.SystemOutput;
 
 public class Console extends Thread {
 	
 	private Reader reader;
 	private Logger logger;
-	private Input<?> input;
 	private OS os;
 	private CommandManager cmdman;
+	private Output<?> output;
 
 	public Console(OS os) {
-		this(os, new ConsoleInput(), new ConsoleOutput());
+		this(os, new SystemInput(), new SystemOutput("> "));
 	}
 	
 	public Console(OS os, Input<?> input, Output<?> output) {
 		
 		this.os = os;
 		
+		this.output = output;
+		
 		this.cmdman = new CommandManager(os);
 		
-		this.input = input;
+		this.logger = new Logger(output);
 		
-		this.logger = new Logger("RHasOS", output);
-		
-		this.reader = new Reader();
+		this.reader = new Reader(input);
 		
 	}
 	
+	public Output<?> getOutput(){
+		return output;
+	}
+	
 	public void defaultStart() {
+		
 		logger.setFormat(
 				new Function<String, String>() {
 					@Override
@@ -54,6 +62,14 @@ public class Console extends Thread {
 					}
 				}
 		);
+		
+		reader.setAction(new Consumer<String>() {
+			@Override
+			public void accept(String t) {
+				process(t);
+			}
+		});
+		
 		reader.thread().start();
 	}
 	
@@ -69,44 +85,12 @@ public class Console extends Thread {
 		return logger;
 	}
 	
-	public Input<?> getInput(){
-		return input;
-	}
-	
-	public void setInput(Input<?> input) {
-		this.input = input;
+	public Reader getReader() {
+		return reader;
 	}
 	
 	public OS getOS() {
 		return os;
-	}
-	
-	public class Reader implements Runnable{
-
-		private Thread thread;
-
-		public Thread thread() {
-			this.thread = new Thread(this);
-			return this.thread;
-		}
-		
-		@Override
-		public void run() {
-			
-			String line;
-			while((line = getInput().read()) != null) {
-				
-				process(line);
-				
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException ex) {
-					return;
-				}
-			}
-
-		}
-		
 	}
 	
 	public static String[] getArgs(String line) {
@@ -123,9 +107,10 @@ public class Console extends Thread {
 
 	public void process(String line) {
 		try {
-			ConsoleReadEvent e = new ConsoleReadEvent(getOS().getConsole(), line);
+			ConsoleReadEvent e = new ConsoleReadEvent(this, line);
 			getOS().call(e);
-			if(!e.isCancelled()) getCommandManager().run(getArgs(e.getLine()), e.getLine());
+			if(!e.isCancelled())
+			getCommandManager().run(getArgs(e.getLine()), e.getLine());
 		} catch (PermissionException | ArgumentException e) {
 			getLogger().write(e.getMessage());
 		}

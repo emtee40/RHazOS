@@ -1,4 +1,4 @@
-# RHazOS v1.3.1
+# RHazOS v1.3.2
 
 ## Features
 
@@ -20,7 +20,7 @@ Add the following sections to your pom.xml
 	<dependency>
 		<groupId>fr.rhaz</groupId>
 		<artifactId>os</artifactId>
-		<version>1.3.1</version>
+		<version>1.3.2</version>
 		<scope>compile</scope> <!-- If you want to shade it -->
 	</dependency>
 </dependencies>

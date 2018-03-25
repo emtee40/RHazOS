@@ -42,4 +42,10 @@ public class PluginDescription {
 	public File getFile() {
 		return file;
 	}
+	
+	public File getFolder() {
+		File folder = new File(getFile().getParentFile(), getName());
+		if(!folder.exists()) folder.mkdirs();
+		return folder;
+	}
 }

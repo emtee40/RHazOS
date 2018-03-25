@@ -1,11 +1,13 @@
-package fr.rhaz.os.logging;
+package fr.rhaz.os.logging.def;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class ConsoleInput extends Input<Scanner>{
+import fr.rhaz.os.logging.Input;
 
-	public ConsoleInput() {
+public class SystemInput extends Input<Scanner>{
+
+	public SystemInput() {
 		super(new Scanner(System.in));
 	}
 
