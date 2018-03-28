@@ -3,9 +3,9 @@ package fr.rhaz.os.logging;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
+import fr.rhaz.os.OS;
 import fr.rhaz.os.Utils;
+import fr.rhaz.os.chains.Tree;
 import fr.rhaz.os.java.Function;
 import fr.rhaz.os.java.Predicate;
 import fr.rhaz.os.logging.def.LoggerOutput;
@@ -15,48 +15,64 @@ public class Logger {
 	private List<Output<?>> outputs = new ArrayList<>();
 	private Predicate<String> filter;
 	private Function<String, String> formatter;
-	private AtomicReference<Thread> process = new AtomicReference<Thread>(null);
+	private Tree<Thread> process = null;
+	private String dprompt;
+	private String prompt;
+	private OS os;
 	
-	public Logger() {}
+	public Logger(OS os) {
+		this.os = os;
+	}
 	
-	public Logger(Output<?>... outputs) {
+	public Logger(OS os, Output<?>... outputs) {
+		this(os);
 		this.outputs = Utils.list(outputs);
 	}
 	
-	public Logger(Collection<Output<?>> outputs) {
+	public Logger(OS os, Collection<Output<?>> outputs) {
+		this(os);
 		this.outputs = new ArrayList<>(outputs);
 	}
 	
-	public Logger(Logger parent, Output<?>... outputs) {
-		this(outputs);
+	public Logger(OS os, Logger parent, Output<?>... outputs) {
+		this(os, outputs);
 		parent.addOutput(new LoggerOutput(this));
 	}
 	
-	public Logger(Logger parent, Collection<Output<?>> outputs) {
-		this(outputs);
+	public Logger(OS os, Logger parent, Collection<Output<?>> outputs) {
+		this(os, outputs);
 		parent.addOutput(new LoggerOutput(this));
+	}
+	
+	public OS getOS() {
+		return os;
 	}
 	
 	public void setOverridingProcess(Thread process) {
-		this.process.set(process);
+		this.process = new Tree<Thread>(process);
 	}
 	
-	public Thread getOverridingProcess() {
-		return process.get();
+	public Tree<Thread> getOverridingTree() {
+		return process;
+	}
+	
+	public void addOverridingProcess(Thread process) {
+		if(process == null) this.process = new Tree<Thread>(process);
+		else this.process.getChildren().add(process);
 	}
 	
 	public void resetOverridingProcess() {
-		this.process.set(null);
+		this.process = null;
 	}
 	
 	public boolean checkOverridingProcess() {
 		Thread t = Thread.currentThread();
 		
-		if(getOverridingProcess() == null) return true;
+		if(getOverridingTree() == null) return true;
 		
-		if(getOverridingProcess() != t) return false;
+		if(!getOverridingTree().contains(t)) return false;
 		
-		if(getOverridingProcess().isInterrupted())
+		if(getOverridingTree().getParent().isInterrupted())
 			resetOverridingProcess();
 		
 		return true;
@@ -102,5 +118,29 @@ public class Logger {
 	// true = do not write
 	public void setFilter(Predicate<String> filter) {
 		this.filter = filter;
+	}
+	
+	public String getDefaultPrompt() {
+		return dprompt;
+	}
+	
+	public void setDefaultPrompt(String dprompt) {
+		this.dprompt = dprompt;
+	}
+	
+	public void resetPrompt() {
+		prompt = dprompt;
+	}
+	
+	public void setPrompt(String prompt) {
+		this.prompt = prompt;
+	}
+	
+	public void updatePrompt() {
+		for(Output<?> out:outputs) {
+			if(!(out instanceof Promptable)) continue;
+			Promptable sout = (Promptable) out;
+			sout.setPrompt(prompt);
+		}
 	}
 }

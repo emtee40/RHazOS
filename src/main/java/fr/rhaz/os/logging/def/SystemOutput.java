@@ -3,8 +3,9 @@ package fr.rhaz.os.logging.def;
 import java.io.PrintStream;
 
 import fr.rhaz.os.logging.Output;
+import fr.rhaz.os.logging.Promptable;
 
-public class SystemOutput extends Output<PrintStream>{
+public class SystemOutput extends Output<PrintStream> implements Promptable {
 
 	private String prompt;
 
@@ -22,6 +23,7 @@ public class SystemOutput extends Output<PrintStream>{
 			out.print("\b");
 	}
 	
+	@Override
 	public void setPrompt(String prompt) {
 		clearPrompt();
 		this.prompt = prompt;

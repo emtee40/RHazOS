@@ -127,7 +127,7 @@ public class Command {
 			} catch (ArgumentException e) {}
 		}
 		
-		throw new ArgumentException();
+		throw new ArgumentException("This command is not available with these arguments. Type 'help' for help.");
 	}
 	
 }

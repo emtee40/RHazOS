@@ -1,102 +1,48 @@
 package fr.rhaz.os;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import fr.rhaz.events.CancellableEvent;
 import fr.rhaz.os.commands.CommandManager;
+import fr.rhaz.os.commands.ExecutionException;
 import fr.rhaz.os.commands.arguments.ArgumentException;
 import fr.rhaz.os.commands.permissions.PermissionException;
+import fr.rhaz.os.commands.users.ConsoleUser;
+import fr.rhaz.os.commands.users.Root;
 import fr.rhaz.os.commands.users.User;
 import fr.rhaz.os.java.Consumer;
 import fr.rhaz.os.java.Function;
-import fr.rhaz.os.logging.Input;
+import fr.rhaz.os.logging.ConsoleLogger;
 import fr.rhaz.os.logging.Logger;
-import fr.rhaz.os.logging.Output;
 import fr.rhaz.os.logging.Reader;
 import fr.rhaz.os.logging.def.SystemInput;
 import fr.rhaz.os.logging.def.SystemOutput;
 
 public class Console extends Thread {
 	
-	private Reader reader;
-	private Logger logger;
-	private OS os;
-	private CommandManager cmdman;
-	private Output<?> output;
-	private boolean userPrompt;
-	private String prompt;
-	private String dprompt;
-
+	protected OS os;
+	protected Reader reader;
+	protected ConsoleLogger logger;
+	protected Session session;
+	
 	public Console(OS os) {
-		this(os, new SystemInput(), new SystemOutput());
-	}
-	
-	public Console(OS os, Input<?> input, Output<?> output) {
-		
 		this.os = os;
-		
-		this.output = output;
-		
-		this.cmdman = new CommandManager(os);
-		
-		this.logger = new Logger(output);
-		
-		this.reader = new Reader(input);
-		
-		setDefaultPrompt("> ");
-		resetPrompt();
-		
-	}
-	
-	public Output<?> getOutput(){
-		return output;
-	}
-	
-	public String getDefaultPrompt() {
-		return dprompt;
-	}
-	
-	public void setDefaultPrompt(String dprompt) {
-		this.dprompt = dprompt;
-	}
-	
-	public void resetPrompt() {
-		prompt = dprompt;
-	}
-	
-	public void setPrompt(String prompt) {
-		this.prompt = prompt;
-	}
-	
-	public void setUserPrompt(boolean enabled) {
-		this.userPrompt = enabled;
-	}
-	
-	public void updatePrompt() {
-		
-		if(!(getOutput() instanceof SystemOutput))
-			return;
-		
-		SystemOutput sout = (SystemOutput) getOutput();
-		sout.setPrompt((userPrompt?("~"+getOS().getUser().getName()):"")+prompt);
 	}
 	
 	public void defaultStart() {
 		
-		setUserPrompt(true);
-		updatePrompt();
+		logger = new ConsoleLogger(this, new SystemOutput());
+		reader = new Reader(new SystemInput());
+		session = new Session(os, new Root());
+		
+		logger.setDefaultPrompt("> ");
+		logger.resetPrompt();
+		logger.setUserPrompt(true);
+		logger.updatePrompt();
 		
 		logger.setFormat(
 				new Function<String, String>() {
 					@Override
 					public String apply(String msg) {
-						return ("["+date("HH:mm:ss")+"]"+" "+msg);
+						return ("["+Utils.date("HH:mm:ss")+"]"+" "+msg);
 					}
 				}
 		);
@@ -104,6 +50,7 @@ public class Console extends Thread {
 		reader.setAction(new Consumer<String>() {
 			@Override
 			public void accept(String t) {
+				logger.updatePrompt();
 				process(t);
 			}
 		});
@@ -111,12 +58,20 @@ public class Console extends Thread {
 		reader.thread().start();
 	}
 	
-	public String date(String format) {
-		return new SimpleDateFormat(format).format(new Date());
+	public ConsoleUser getUser() {
+		return new ConsoleUser(this, session.getUser());
+	}
+	
+	public ConsoleUser getUser(User user) {
+		return new ConsoleUser(this, user);
+	}
+	
+	public ConsoleUser getUser(String name) throws ExecutionException {
+		return new ConsoleUser(this, getOS().getUser(name));
 	}
 	
 	public CommandManager getCommandManager() {
-		return cmdman;
+		return getOS().getCommandManager();
 	}
 	
 	public Logger getLogger() {
@@ -127,20 +82,12 @@ public class Console extends Thread {
 		return reader;
 	}
 	
-	public OS getOS() {
-		return os;
+	public Session getSession() {
+		return session;
 	}
 	
-	public static String[] getArgs(String line) {
-		Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(line);
-		List<String> list = new ArrayList<String>();
-		while (m.find()) {
-			String msg = m.group(1);
-			if(msg.startsWith("\"") && msg.endsWith("\""))
-				msg = msg.substring(1, msg.length()-1);
-			list.add(msg);
-		}
-		return list.toArray(new String[list.size()]);
+	public OS getOS() {
+		return os;
 	}
 
 	public void process(String line) {
@@ -148,7 +95,7 @@ public class Console extends Thread {
 			ConsoleReadEvent e = new ConsoleReadEvent(this, line);
 			getOS().call(e);
 			if(!e.isCancelled())
-			getCommandManager().run(getArgs(e.getLine()), e.getLine());
+				getCommandManager().run(getUser(), Utils.getArgs(e.getLine()), e.getLine());
 		} catch (PermissionException | ArgumentException e) {
 			getLogger().write(e.getMessage());
 		}
@@ -168,7 +115,7 @@ public class Console extends Thread {
 		}
 		
 		public User getUser() {
-			return console.getOS().getUser();
+			return console.getSession().getUser();
 		}
 		
 		public String getLine() {

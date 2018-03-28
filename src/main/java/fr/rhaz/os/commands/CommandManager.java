@@ -56,11 +56,7 @@ public class CommandManager {
 	public void register(Command command) {
 		commands.add(command);
 	}
-	
-	public void run(String[] line, String raw) throws ArgumentException, PermissionException {
-		run(getOS().getUser(), line, raw);
-	}
-	
+
 	public void run(final CommandSender sender, final String[] line, final String raw) throws ArgumentException, PermissionException {
 	
 		if(line.length == 0) return;

@@ -2,16 +2,14 @@ package fr.rhaz.os.commands.users;
 
 import java.io.File;
 
-import fr.rhaz.os.OS;
+import fr.rhaz.os.commands.permissions.Permission;
 
-public abstract class User extends CommandSender{
+public abstract class User{
 	
 	private File folder;
-	private OS os;
 	private String name;
-
-	public User(OS os, String name) {
-		this.os = os;
+	
+	public User(String name) {
 		this.name = name;
 		this.folder = new File("users", name);
 	}
@@ -20,12 +18,9 @@ public abstract class User extends CommandSender{
 		return folder;
 	}
 	
-	public OS getOS() {
-		return os;
-	}
-	
-	@Override
 	public String getName() {
 		return name;
 	}
+
+	public abstract boolean has(Permission perm);
 }

@@ -1,38 +1,35 @@
 package fr.rhaz.os.commands.users;
 
-import java.util.HashSet;
-
-import fr.rhaz.os.OS;
+import fr.rhaz.os.Console;
 import fr.rhaz.os.commands.permissions.Permission;
-import fr.rhaz.os.commands.permissions.PermissionManager;
 
-public class ConsoleUser extends User {
+public class ConsoleUser extends CommandSender {
 
-	private HashSet<Permission> permissions;
-
-	public ConsoleUser(OS os, String name, Permission... perms) {
-		super(os, name);
-		this.permissions = PermissionManager.calculate(perms);
-	}
+	private Console console;
+	private User user;
 	
-	public ConsoleUser(OS os, String name, String... perms) {
-		super(os, name);
-		this.permissions = PermissionManager.calculate(PermissionManager.from(perms));
-	}
-	
-	public ConsoleUser(OS os, String name) {
-		super(os, name);
-		this.permissions = new HashSet<Permission>();
+	public ConsoleUser(Console console, User user) {
+		this.user = user;
+		this.console = console;
 	}
 
 	@Override
 	public void write(String msg) {
-		getOS().write(msg);
+		getConsole().getLogger().write(msg);
+	}
+
+	public Console getConsole() {
+		return console;
 	}
 
 	@Override
 	public boolean has(Permission perm) {
-		return PermissionManager.has(permissions, perm);
+		return user.has(perm);
+	}
+
+	@Override
+	public String getName() {
+		return user.getName();
 	}
 	
 }

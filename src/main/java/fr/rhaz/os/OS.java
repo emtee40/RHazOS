@@ -6,13 +6,11 @@ import fr.rhaz.events.Event;
 import fr.rhaz.events.EventManager;
 import fr.rhaz.events.EventRunnable;
 import fr.rhaz.os.OS.OSEvent.OSEventType;
-import fr.rhaz.os.chains.Element;
 import fr.rhaz.os.commands.Command;
+import fr.rhaz.os.commands.CommandManager;
 import fr.rhaz.os.commands.ExecutionException;
 import fr.rhaz.os.commands.users.Root;
 import fr.rhaz.os.commands.users.User;
-import fr.rhaz.os.logging.Output;
-import fr.rhaz.os.logging.def.SystemOutput;
 import fr.rhaz.os.plugins.PluginManager;
 
 public class OS {
@@ -23,7 +21,7 @@ public class OS {
 	private Thread thread;
 	private OS.Environment environment;
 	private HashSet<User> users;
-	private Element<User> user;
+	private CommandManager cmdman;
 	
 	public OS() {
 		this(OS.Environment.JAVA);
@@ -39,12 +37,12 @@ public class OS {
 		
 		eventman = new EventManager();
 		
-		pluginman = new PluginManager(this);
+		pluginman = new PluginManager(this);	
 		
-		users = new HashSet<User>();
-		Root root = new Root(this);
-		user = new Element<User>(root);
-		users.add(root);	
+		cmdman = new CommandManager(this);
+		
+		users = new HashSet<>();
+		add(new Root());
 		
 	}
 	
@@ -67,6 +65,10 @@ public class OS {
 	
 	public Console getConsole() {
 		return console;
+	}
+	
+	public CommandManager getCommandManager() {
+		return cmdman;
 	}
 	
 	public PluginManager getPluginManager() {
@@ -132,30 +134,13 @@ public class OS {
 		users.add(user);
 	}
 	
-	public User getUser() {
-		return user.value();
-	}
-	
-	public Element<User> getUserElement() {
-		return user;
-	}
-
-	public void su(String user) throws ExecutionException{
-		setUser(new Element<User>(this.user, getUser(user)));
-	}
-	
 	public User getUser(String name) throws ExecutionException {
 		
-		for(User user:users)
+		for(User user:getUsers())
 			if(user.getName().equals(name))
 				return user;
 		
 		throw new ExecutionException("User not found");
 		
-	}
-	
-	public void setUser(Element<User> user) {
-		this.user = user;
-		getConsole().updatePrompt();
 	}
 }

@@ -54,12 +54,7 @@ public class EventManager {
 					return;
 				}
 				
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						r.call(event);
-					}
-				}).start();
+				r.call(event);
 				
 			}
 		};
