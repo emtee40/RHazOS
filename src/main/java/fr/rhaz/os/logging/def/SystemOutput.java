@@ -7,10 +7,11 @@ import fr.rhaz.os.logging.Promptable;
 
 public class SystemOutput extends Output<PrintStream> implements Promptable {
 
-	private String prompt;
+	private String prompt = "";
 
 	public SystemOutput() {
-		this("");
+		super(System.out);
+		this.prompt = "";
 	}
 	
 	public SystemOutput(String prompt) {

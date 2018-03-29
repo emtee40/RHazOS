@@ -16,8 +16,8 @@ public class Logger {
 	private Predicate<String> filter;
 	private Function<String, String> formatter;
 	private Tree<Thread> process = null;
-	private String dprompt;
-	private String prompt;
+	private String dprompt = "";
+	private String prompt = "";
 	private OS os;
 	
 	public Logger(OS os) {
@@ -57,8 +57,8 @@ public class Logger {
 	}
 	
 	public void addOverridingProcess(Thread process) {
-		if(process == null) this.process = new Tree<Thread>(process);
-		else this.process.getChildren().add(process);
+		if(this.process != null)
+		this.process.getChildren().add(process);
 	}
 	
 	public void resetOverridingProcess() {
@@ -89,6 +89,18 @@ public class Logger {
 		
 		for(Output<?> out:outputs)
 			out.write(msg);
+	}
+	
+	public void writeWithoutFormat(String msg) {
+		
+		if(!checkOverridingProcess())
+			return;
+		
+		if(filter(msg)) return;
+		
+		for(Output<?> out:outputs)
+			out.write(msg);
+		
 	}
 	
 	public List<Output<?>> getOutputs(){

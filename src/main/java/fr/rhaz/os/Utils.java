@@ -46,4 +46,13 @@ public class Utils {
 		}
 		return list.toArray(new String[list.size()]);
 	}
+    
+    public static boolean sleep(long millis) {
+    	try {
+			Thread.sleep(millis);
+			return true;
+		} catch (InterruptedException e) {
+			return false;
+		}
+    }
 }

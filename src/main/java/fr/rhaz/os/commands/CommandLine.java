@@ -3,10 +3,12 @@ package fr.rhaz.os.commands;
 import java.util.Arrays;
 import java.util.List;
 
+import fr.rhaz.os.Console;
 import fr.rhaz.os.Utils;
 import fr.rhaz.os.commands.arguments.Argument;
 import fr.rhaz.os.commands.arguments.ArgumentException;
 import fr.rhaz.os.commands.users.CommandSender;
+import fr.rhaz.os.commands.users.ConsoleUser;
 import fr.rhaz.os.java.Optional;
 
 public class CommandLine {
@@ -52,6 +54,13 @@ public class CommandLine {
 	
 	public String getRawLine() {
 		return raw;
+	}
+	
+	public Optional<Console> getConsole(){
+		Console console = null;
+		if(getSender() instanceof ConsoleUser)
+			console = ((ConsoleUser) getSender()).getConsole();
+		return Optional.ofNullable(console);
 	}
 	
 	// Read the next value as an arg

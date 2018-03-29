@@ -4,7 +4,7 @@ import java.io.File;
 
 import fr.rhaz.os.OS;
 
-public abstract class Plugin {
+public class Plugin {
 	
 	private PluginDescription desc;
 	private PluginRunnable runnable;
@@ -22,11 +22,16 @@ public abstract class Plugin {
 		return runnable.getPluginManager().getOS();
 	}
 	
-	public abstract void onLoad();
-	public abstract void onEnable();
-	public abstract void onDisable();
-	public abstract void onUnload();
-	public abstract void onExit();
+	public void onLoad() {
+	}
+	public void onEnable() {
+	}
+	public void onDisable() {
+	}
+	public void onUnload() {
+	}
+	public void onExit() {
+	}
 	
 	public PluginDescription getDescription() {
 		return desc;

@@ -11,7 +11,6 @@ import fr.rhaz.os.commands.users.User;
 import fr.rhaz.os.java.Consumer;
 import fr.rhaz.os.java.Function;
 import fr.rhaz.os.logging.ConsoleLogger;
-import fr.rhaz.os.logging.Logger;
 import fr.rhaz.os.logging.Reader;
 import fr.rhaz.os.logging.def.SystemInput;
 import fr.rhaz.os.logging.def.SystemOutput;
@@ -74,7 +73,7 @@ public class Console extends Thread {
 		return getOS().getCommandManager();
 	}
 	
-	public Logger getLogger() {
+	public ConsoleLogger getLogger() {
 		return logger;
 	}
 	
