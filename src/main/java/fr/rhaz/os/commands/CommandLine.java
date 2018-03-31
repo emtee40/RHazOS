@@ -1,6 +1,5 @@
 package fr.rhaz.os.commands;
 
-import java.util.Arrays;
 import java.util.List;
 
 import fr.rhaz.os.Console;
