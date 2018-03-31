@@ -4,15 +4,15 @@ A powerful Java console with plugins
 
 ## Goto
 
-* #### [RHazOS for Android](https://github.com/RHazDev/RHazOS-Android), a RHazOS implementation for Android
+* ##### [RHazOS for Android](https://github.com/RHazDev/RHazOS-Android), a RHazOS implementation for Android
 
-* #### [TestPlugin](https://github.com/RHazDev/TestPlugin), a plugin that tests and shows RHazOS features
+* ##### [TestPlugin](https://github.com/RHazDev/TestPlugin), a plugin that tests and shows RHazOS features
 
 ## Download
 
-##### [Stable](https://github.com/RHazDev/RHazOS/releases)
+* ##### [Stable](https://github.com/RHazDev/RHazOS/releases)
 
-##### [Build](https://github.com/RHazDev/RHazOS/tree/master/target)
+* ##### [Build](https://github.com/RHazDev/RHazOS/tree/master/target)
 
 ## Features & Examples
 
