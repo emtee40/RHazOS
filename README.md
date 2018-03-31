@@ -1,6 +1,16 @@
 # RHazOS v1.3.4
 
-## Features
+## Download
+
+##### Stable
+
+https://github.com/RHazDev/RHazOS/releases
+
+##### Build
+
+https://github.com/RHazDev/RHazOS/tree/master/target
+
+## Features & Examples
 
 See https://github.com/RHazDev/TestPlugin
 
@@ -27,6 +37,10 @@ Add the following sections to your pom.xml
 ```
 
 ## Changelog
+
+#### v1.3.4 "The Console update"
+
+* Improved logging and console
 
 ##### v1.1 "The Command Update"
 
