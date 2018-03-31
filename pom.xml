@@ -122,6 +122,16 @@
         </configuration>
     </plugin>
     <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-javadoc-plugin</artifactId>
+    <version>2.10.3</version>
+    <configuration>
+    	<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+    </configuration>
+    <executions> 
+    </executions> 
+</plugin>
+    <plugin>
             <groupId>com.github.github</groupId>
             <artifactId>site-maven-plugin</artifactId>
             <version>0.11</version>

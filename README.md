@@ -6,13 +6,21 @@ A powerful Java console with plugins
 
 * ##### [Wiki](https://github.com/RHazDev/RHazOS/wiki)
 
+* ##### [Javadoc](https://rhazdev.github.io/RHaz-Maven/fr/rhaz/os/1.3.4/apidocs/)
+
 * ##### [Discussion & Issues](https://github.com/RHazDev/RHazOS/issues)
 
 * ##### [RHazOS for Android](https://github.com/RHazDev/RHazOS-Android), a RHazOS implementation for Android
 
 * ##### [TestPlugin](https://github.com/RHazDev/TestPlugin), a plugin that tests and shows RHazOS features
 
-## Overview
+## Download
+
+* ##### [Stable](https://github.com/RHazDev/RHazOS/releases)
+
+* ##### [Build](https://github.com/RHazDev/RHazOS/tree/master/target)
+
+## Features & Examples
 
 ```
 new Command("mycommand").addAlias("mine").addExecutor(new CommandExecutor() {
@@ -25,15 +33,7 @@ new Command("mycommand").addAlias("mine").addExecutor(new CommandExecutor() {
 });
 ```
 
-## Download
-
-* ##### [Stable](https://github.com/RHazDev/RHazOS/releases)
-
-* ##### [Build](https://github.com/RHazDev/RHazOS/tree/master/target)
-
-## Features & Examples
-
-See [TestPlugin](https://github.com/RHazDev/TestPlugin)
+See [TestPlugin](https://github.com/RHazDev/TestPlugin) for more examples
 
 ## Maven dependency
 
