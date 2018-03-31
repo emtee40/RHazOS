@@ -121,7 +121,8 @@ public final class Optional<T> {
      * @return an {@code Optional} with a present value if the specified value
      * is non-null, otherwise an empty {@code Optional}
      */
-    public static <T> Optional<T> ofNullable(T value) {
+    @SuppressWarnings("unchecked")
+	public static <T> Optional<T> ofNullable(T value) {
         return (Optional<T>) (value == null ? empty() : of(value));
     }
 
@@ -174,7 +175,8 @@ public final class Optional<T> {
      * otherwise an empty {@code Optional}
      * @throws NullPointerException if the predicate is null
      */
-    public Optional<T> filter(Predicate<? super T> predicate) {
+    @SuppressWarnings("unchecked")
+	public Optional<T> filter(Predicate<? super T> predicate) {
         Objects.requireNonNull(predicate);
         if (!isPresent())
             return this;
@@ -211,7 +213,8 @@ public final class Optional<T> {
      * otherwise an empty {@code Optional}
      * @throws NullPointerException if the mapping function is null
      */
-    public<U> Optional<U> map(Function<? super T, ? extends U> mapper) {
+    @SuppressWarnings("unchecked")
+	public<U> Optional<U> map(Function<? super T, ? extends U> mapper) {
         Objects.requireNonNull(mapper);
         if (!isPresent())
             return empty();

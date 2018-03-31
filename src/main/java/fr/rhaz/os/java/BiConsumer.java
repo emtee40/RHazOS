@@ -24,8 +24,6 @@
  */
 package fr.rhaz.os.java;
 
-import java.util.Objects;
-
 /**
  * Represents an operation that accepts two input arguments and returns no
  * result.  This is the two-arity specialization of .

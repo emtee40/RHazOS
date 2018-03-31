@@ -13,6 +13,7 @@ public class Utils {
 		return Arrays.copyOfRange(array, 1, array.length);
 	}
 	
+	@SafeVarargs
 	public static <T> List<T> list(T... array){
 		return new ArrayList<>(Arrays.asList(array));
 	}

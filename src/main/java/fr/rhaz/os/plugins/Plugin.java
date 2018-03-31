@@ -1,7 +1,5 @@
 package fr.rhaz.os.plugins;
 
-import java.io.File;
-
 import fr.rhaz.os.OS;
 
 public class Plugin {
@@ -22,19 +20,26 @@ public class Plugin {
 		return runnable.getPluginManager().getOS();
 	}
 	
-	public void onLoad() {
-	}
-	public void onEnable() {
-	}
-	public void onDisable() {
-	}
-	public void onUnload() {
-	}
-	public void onExit() {
-	}
+	public void onLoad() {}
+	public void onEnable() {}
+	public void onDisable() {}
+	public void onUnload() {}
+	public void onExit() {}
 	
 	public PluginDescription getDescription() {
 		return desc;
+	}
+	
+	public void setDescription(PluginDescription desc) {
+		this.desc = desc;
+	}
+
+	public void setRunnable(PluginRunnable runnable) {
+		this.runnable = runnable;
+	}
+	
+	public PluginRunnable getRunnable() {
+		return runnable;
 	}
 	
 	public boolean isEnabled() {
@@ -77,24 +82,16 @@ public class Plugin {
 		status = Status.DISABLED;
 	}
 	
+	public Status getStatus() {
+		return status;
+	}
+	
 	public static enum Status{
 		UNLOADED,
 		LOADED,
 		ENABLING,
 		ENABLED,
 		DISABLED;
-	}
-
-	public void setDescription(PluginDescription pluginDesc) {
-		this.desc = pluginDesc;
-	}
-
-	public void setRunnable(PluginRunnable pluginRunnable) {
-		this.runnable = pluginRunnable;
-	}
-	
-	public PluginRunnable getRunnable() {
-		return runnable;
 	}
 	
 }
