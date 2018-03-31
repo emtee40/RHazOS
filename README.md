@@ -16,6 +16,10 @@ A powerful Java console with plugins
 
 * ##### [TestPlugin](https://github.com/RHazDev/TestPlugin), a plugin that tests and shows RHazOS features
 
+## Overview
+
+![](https://image.prntscr.com/image/CDe19kwzQvmG6lcXmI2euQ.png)
+
 ## Download
 
 * ##### [Stable](https://github.com/RHazDev/RHazOS/releases)
