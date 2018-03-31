@@ -4,9 +4,26 @@ A powerful Java console with plugins
 
 ## Goto
 
+* ##### [Wiki](https://github.com/RHazDev/RHazOS/wiki)
+
+* ##### [Discussion & Issues](https://github.com/RHazDev/RHazOS/issues)
+
 * ##### [RHazOS for Android](https://github.com/RHazDev/RHazOS-Android), a RHazOS implementation for Android
 
 * ##### [TestPlugin](https://github.com/RHazDev/TestPlugin), a plugin that tests and shows RHazOS features
+
+## Overview
+
+```
+new Command("mycommand").addAlias("mine").addExecutor(new CommandExecutor() {
+			
+	@Override
+	public void run(CommandLine context) throws ExecutionException, PermissionException, ArgumentException {
+		context.getSender().write("Hello world!");
+	}
+	
+});
+```
 
 ## Download
 
