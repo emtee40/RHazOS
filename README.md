@@ -1,5 +1,7 @@
 # RHazOS v1.3.4
 
+A powerful Java console with plugins 
+
 ## Download
 
 ##### Stable
