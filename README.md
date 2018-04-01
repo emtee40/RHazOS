@@ -1,6 +1,6 @@
 ![](https://ipfs.io/ipfs/QmTUEKxGh39BL8BZfXGzLTV5XdALdmoYWZ2vTJx8vsz8Ak)
 
-# RHazOS v1.3.4
+# RHazOS v1.3.5
 
 A powerful Java console with plugins 
 
@@ -57,8 +57,8 @@ Add the following sections to your pom.xml
 	<dependency>
 		<groupId>fr.rhaz</groupId>
 		<artifactId>os</artifactId>
-		<version>1.3.4</version>
-		<scope>compile</scope> <!-- If you want to shade it -->
+		<version>1.3.5</version>
+		<scope>provided</scope>
 	</dependency>
 </dependencies>
 ```
