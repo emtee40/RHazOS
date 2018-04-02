@@ -20,7 +20,7 @@
         <item>
             <title>IPFS (v1.0)</title>
             <description><![CDATA[IPFS Daemon & Commands for RHazOS]]></description>
-            <link>https://rawgit.com/RHazDev/IPFS-Console/master/target/ipfs-1.0.jar</link>
+            <link>https://rawgit.com/RHazDev/IPFS-Console/master/target/ipfs-1.0-dx.jar</link>
         </item>
     </channel>
 </rss>
