@@ -1,8 +1,7 @@
 package fr.rhaz.os.logging;
 
 import java.util.concurrent.TimeUnit;
-
-import fr.rhaz.os.java.Consumer;
+import java.util.function.Consumer;
 
 public class Reader implements Runnable {
 

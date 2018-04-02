@@ -1,4 +1,4 @@
-package fr.rhaz.os.java;
+package java.util;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -22,27 +22,12 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package fr.rhaz.os.java;
+package java.util.function;
 
-/**
- * Represents a predicate (boolean-valued function) of one argument.
- *
- * <p>This is a <a href="package-summary.html">functional interface</a>
- * whose functional method is {@link #test(Object)}.
- *
- * @param <T> the type of the input to the predicate
- *
- * @since 1.8
- */
-public interface Predicate<T> {
 
-    /**
-     * Evaluates this predicate on the given argument.
-     *
-     * @param t the input argument
-     * @return {@code true} if the input argument matches the predicate,
-     * otherwise {@code false}
-     */
-    boolean test(T t);
+public interface BiConsumer<T, U> {
+
+
+    void accept(T t, U u);
 
 }

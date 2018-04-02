@@ -1,5 +1,8 @@
 package fr.rhaz.os;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import fr.rhaz.events.CancellableEvent;
 import fr.rhaz.os.commands.CommandManager;
 import fr.rhaz.os.commands.ExecutionException;
@@ -8,8 +11,6 @@ import fr.rhaz.os.commands.permissions.PermissionException;
 import fr.rhaz.os.commands.users.ConsoleUser;
 import fr.rhaz.os.commands.users.Root;
 import fr.rhaz.os.commands.users.User;
-import fr.rhaz.os.java.Consumer;
-import fr.rhaz.os.java.Function;
 import fr.rhaz.os.logging.ConsoleLogger;
 import fr.rhaz.os.logging.Reader;
 import fr.rhaz.os.logging.def.SystemInput;

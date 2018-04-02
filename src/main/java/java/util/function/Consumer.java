@@ -22,9 +22,10 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package fr.rhaz.os.java;
+package java.util.function;
 
-public interface Function<T, R> {
 
-    R apply(T t);
+public interface Consumer<T> {
+
+    void accept(T t);
 }

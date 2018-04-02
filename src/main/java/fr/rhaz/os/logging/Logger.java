@@ -3,11 +3,12 @@ package fr.rhaz.os.logging;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 import fr.rhaz.os.OS;
 import fr.rhaz.os.Utils;
 import fr.rhaz.os.chains.Tree;
-import fr.rhaz.os.java.Function;
-import fr.rhaz.os.java.Predicate;
 import fr.rhaz.os.logging.def.LoggerOutput;
 
 public class Logger {
