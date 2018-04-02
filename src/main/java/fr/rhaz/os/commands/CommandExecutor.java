@@ -1,5 +1,7 @@
 package fr.rhaz.os.commands;
 
+import com.google.common.base.Strings;
+
 import fr.rhaz.os.commands.arguments.Argument;
 import fr.rhaz.os.commands.arguments.ArgumentException;
 import fr.rhaz.os.commands.permissions.PermissionException;
@@ -8,6 +10,7 @@ public abstract class CommandExecutor {
 	@SuppressWarnings("rawtypes")
 	private Argument[] args;
 	private String desc;
+	private String hint;
 
 	@SafeVarargs
 	public CommandExecutor(String desc, Argument<?>... args) {
@@ -25,6 +28,15 @@ public abstract class CommandExecutor {
 		return args;
 	}
 	
+	public CommandExecutor setHint(String hint) {
+		this.hint = hint;
+		return this;
+	}
+	
+	public String getHint() {
+		return hint;
+	}
+	
 	public CommandExecutor setDescription(String desc) {
 		this.desc = desc;
 		return this;
@@ -35,6 +47,10 @@ public abstract class CommandExecutor {
 	}
 	
 	public String toString() {
+		
+		if(!Strings.isNullOrEmpty(hint))
+			return hint;
+		
 		String result = "";
 		for(Argument<?> arg:args)
 			result += arg + " ";
