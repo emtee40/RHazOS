@@ -187,5 +187,10 @@
 		<version>1.0</version>
 		<scope>compile</scope>
 	</dependency>
+	<dependency>
+		<groupId>fr.rhaz</groupId>
+		<artifactId>java8utils</artifactId>
+		<version>1.0</version>
+	</dependency>
 	</dependencies>
 </project>
