@@ -160,13 +160,6 @@
 	</build>
 	
 	<dependencies>
-	<!-- https://mvnrepository.com/artifact/net.sf.m-m-m/mmm-util-backport-java.util.function -->
-	<dependency>
-	    <groupId>net.sf.m-m-m</groupId>
-	    <artifactId>mmm-util-backport-java.util.function</artifactId>
-	    <version>1.0.1</version>
-	    <scope>compile</scope>
-	</dependency>
 	
 	<dependency>
 		<groupId>net.md-5</groupId>
