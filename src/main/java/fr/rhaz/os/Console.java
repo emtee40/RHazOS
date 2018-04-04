@@ -9,7 +9,6 @@ import fr.rhaz.os.commands.ExecutionException;
 import fr.rhaz.os.commands.arguments.ArgumentException;
 import fr.rhaz.os.commands.permissions.PermissionException;
 import fr.rhaz.os.commands.users.ConsoleUser;
-import fr.rhaz.os.commands.users.Root;
 import fr.rhaz.os.commands.users.User;
 import fr.rhaz.os.logging.ConsoleLogger;
 import fr.rhaz.os.logging.Reader;
@@ -31,7 +30,8 @@ public class Console extends Thread {
 		
 		logger = new ConsoleLogger(this, new SystemOutput());
 		reader = new Reader(new SystemInput());
-		session = new Session(os, new Root());
+		
+		session = new Session(os.getUser("root"));
 		
 		logger.setDefaultPrompt("> ");
 		logger.resetPrompt();
@@ -66,8 +66,10 @@ public class Console extends Thread {
 		return new ConsoleUser(this, user);
 	}
 	
-	public ConsoleUser getUser(String name) throws ExecutionException {
-		return new ConsoleUser(this, getOS().getUser(name));
+	public ConsoleUser getUser(String name) {
+		User user = getOS().getUser(name);
+		if(user == null) return null;
+		return new ConsoleUser(this, user);
 	}
 	
 	public CommandManager getCommandManager() {

@@ -1,11 +1,12 @@
 package fr.rhaz.os.commands.users;
 
+import fr.rhaz.os.OS;
 import fr.rhaz.os.commands.permissions.Permission;
 
 public class Root extends User {
 
-	public Root() {
-		super("root");
+	public Root(OS os) {
+		super(os, "root");
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import fr.rhaz.os.commands.arguments.def.StringArgument;
 import fr.rhaz.os.commands.permissions.Permission;
 import fr.rhaz.os.commands.permissions.PermissionException;
 import fr.rhaz.os.commands.users.ConsoleUser;
+import fr.rhaz.os.commands.users.User;
 
 public class SudoCommand extends Command {
 	
@@ -24,14 +25,18 @@ public class SudoCommand extends Command {
 			
 			@Override
 			public void run(CommandLine line) throws ExecutionException, PermissionException, ArgumentException {
-				String user = line.read(new StringArgument()).get();
+				String name = line.read(new StringArgument()).get();
 				
 				if(!(line.getSender() instanceof ConsoleUser))
 					throw new ExecutionException("This command cannot be executed here.");
 				
 				Console console = ((ConsoleUser) line.getSender()).getConsole();
 				
-				cman.run(console.getUser(user), Utils.removeFirst(line.getLine()), line.getRawLine());
+				ConsoleUser user = console.getUser(name);
+				if(user == null)
+					throw new ExecutionException("User not found");
+				
+				cman.run(user, Utils.removeFirst(line.getLine()), line.getRawLine());
 			}
 			
 			@Override

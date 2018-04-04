@@ -1,5 +1,6 @@
 package fr.rhaz.os;
 
+import java.io.File;
 import java.util.HashSet;
 
 import fr.rhaz.events.Event;
@@ -22,6 +23,7 @@ public class OS {
 	private OS.Environment environment;
 	private HashSet<User> users;
 	private CommandManager cmdman;
+	private File folder;
 	
 	public OS() {
 		this(OS.Environment.JAVA);
@@ -42,7 +44,6 @@ public class OS {
 		cmdman = new CommandManager(this);
 		
 		users = new HashSet<>();
-		add(new Root());
 		
 	}
 	
@@ -51,6 +52,8 @@ public class OS {
 	}
 	
 	public void defaultStart() {
+		add(new Root(this));
+		setFolder(new File("."));
 		getConsole().defaultStart();
 		getPluginManager().defaultStart();
 	}
@@ -134,13 +137,25 @@ public class OS {
 		users.add(user);
 	}
 	
-	public User getUser(String name) throws ExecutionException {
+	public User getUser(String name){
 		
 		for(User user:getUsers())
 			if(user.getName().equals(name))
 				return user;
 		
-		throw new ExecutionException("User not found");
+		return null;
 		
+	}
+	
+	public File getFolder() {
+		return folder;
+	}
+	
+	public void setFolder(File folder) {
+		this.folder = folder;
+	}
+	
+	public File getUsersFolder() {
+		return new File(folder, "users");
 	}
 }

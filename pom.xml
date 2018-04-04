@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>fr.rhaz</groupId>
   <artifactId>os</artifactId>
-  <version>1.3.5</version>
+  <version>1.3.6</version>
   <name>RHazOS</name>
   
   <repositories>

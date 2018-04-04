@@ -12,6 +12,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.jar.JarFile;
 
+import com.google.common.base.Strings;
+
 import fr.rhaz.os.OS;
 import fr.rhaz.os.Unthrow;
 import fr.rhaz.os.Unthrow.IProc0;
@@ -97,16 +99,16 @@ public class PluginManager {
 				
 				PluginDescription desc = new PluginDescription();
 				
-				if(nullOrEmpty(main))
+				if(Strings.isNullOrEmpty(main))
 					continue;
 				
-				if(!nullOrEmpty(name))
+				if(!Strings.isNullOrEmpty(name))
 					desc.setName(name);
 				
-				if(!nullOrEmpty(author))
+				if(!Strings.isNullOrEmpty(author))
 					desc.setAuthor(author);
 				
-				if(!nullOrEmpty(version))
+				if(!Strings.isNullOrEmpty(version))
 					desc.setVersion(version);
 				
 				desc.setFile(file);
@@ -179,9 +181,5 @@ public class PluginManager {
 			}
 		};
 		for(PluginRunnable plugin:plugins) consumer.accept(plugin);
-	}
-	
-	public boolean nullOrEmpty(String str) {
-		return str == null || str.isEmpty();
 	}
 }
