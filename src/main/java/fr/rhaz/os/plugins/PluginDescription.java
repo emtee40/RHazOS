@@ -8,6 +8,7 @@ public class PluginDescription {
 	private String version;
 	private Class<? extends Plugin> main;
 	private File file;
+	private String mainname;
 	
 	public String getName() {
 		return name;
@@ -47,5 +48,13 @@ public class PluginDescription {
 		File folder = new File(getFile().getParentFile(), getName());
 		if(!folder.exists()) folder.mkdirs();
 		return folder;
+	}
+	
+	public void setPluginClassName(String name) {
+		this.mainname = name;
+	}
+	
+	public String getPluginClassName() {
+		return mainname;
 	}
 }

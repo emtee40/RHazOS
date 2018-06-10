@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.jar.JarFile;
 
@@ -39,11 +40,11 @@ public class PluginManager {
 	
 	public void defaultStart() {
 		
-		BiConsumer<PluginDescription, String>
-		loader = new BiConsumer<PluginDescription, String>() {
+		Consumer<PluginDescription>
+		loader = new Consumer<PluginDescription>() {
 			@Override
-			public void accept(PluginDescription desc, String main) {
-				injectClass(desc, main);
+			public void accept(PluginDescription t) {
+				injectClass(t);
 			}
 		};
 				
@@ -59,16 +60,18 @@ public class PluginManager {
 		enableAll();
 	}
 	
-	public void injectClass(PluginDescription desc, String main){
+	public void injectClass(PluginDescription desc){
 		try {
 			
-			URLClassLoader urlloader = new URLClassLoader(new URL[] {desc.getFile().toURI().toURL()}, getClass().getClassLoader());
+			String main = desc.getPluginClassName();
+			URLClassLoader urlloader = new PluginClassloader(new URL[] {desc.getFile().toURI().toURL()});
 			Class<? extends Plugin> pluginclass = Class.forName(main, true, urlloader).asSubclass(Plugin.class);
 			desc.setPluginClass(pluginclass);
 			
 		} catch (ClassNotFoundException | MalformedURLException e) {
 			e.printStackTrace();
 		}
+
 	}
 	
 	public File[] getAll() {
@@ -80,7 +83,7 @@ public class PluginManager {
 		});
 	}
 	
-	public void loadAll(BiConsumer<PluginDescription, String> loader) {
+	public void loadAll(Consumer<PluginDescription> loader) {
 		File[] files = getAll();
 		
 		if(files.length == 0) return;
@@ -102,6 +105,8 @@ public class PluginManager {
 				if(Strings.isNullOrEmpty(main))
 					continue;
 				
+				desc.setPluginClassName(main);
+				
 				if(!Strings.isNullOrEmpty(name))
 					desc.setName(name);
 				
@@ -113,7 +118,7 @@ public class PluginManager {
 				
 				desc.setFile(file);
 				
-				loader.accept(desc, main);
+				loader.accept(desc);
 				
 				if(desc.getPluginClass() == null) {
 					getOS().write("Unable to load "+file.getName());
